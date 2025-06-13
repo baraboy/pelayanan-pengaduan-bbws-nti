@@ -10,26 +10,26 @@ export function ModalPermaklumat() {
     const [isLoading, setIsLoading] = useState(false)
     const cancelButtonRef = useRef(null)
 
-    const saveHaveReadPermaklumat = async (e: any) => {
-        e.preventDefault()
-        setIsLoading(true)
-        try {
-            const res = await axios.post('/api/maklumat',
-                { ip: ip },
-                {
-                    headers: {
-                        'Authorization': 'Basic c3VydmV5c2lzZGE6cGFzczJzaXNkYXN1cnZleQ=='
-                    }
-                }
-            )
-            console.log('have read', res.data)
-            setOpen(false)
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setIsLoading(false)
-        }
-    }
+    // const saveHaveReadPermaklumat = async (e: any) => {
+    //     e.preventDefault()
+    //     setIsLoading(true)
+    //     try {
+    //         const res = await axios.post('/api/maklumat',
+    //             { ip: ip },
+    //             {
+    //                 headers: {
+    //                     'Authorization': 'Basic c3VydmV5c2lzZGE6cGFzczJzaXNkYXN1cnZleQ=='
+    //                 }
+    //             }
+    //         )
+    //         console.log('have read', res.data)
+    //         setOpen(false)
+    //     } catch (error) {
+    //         console.error(error)
+    //     } finally {
+    //         setIsLoading(false)
+    //     }
+    // }
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -80,9 +80,9 @@ export function ModalPermaklumat() {
                                     <button
                                         type="button"
                                         className="inline-flex w-full justify-center rounded-md bg-blue-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 sm:ml-3 sm:w-auto"
-                                        onClick={
-                                            saveHaveReadPermaklumat
-                                        }
+                                        // onClick={
+                                        //     saveHaveReadPermaklumat
+                                        // }
                                     >
                                         {isLoading ? 'Loading...' :
                                             'Kami telah membaca dan memahami maklumat pelayanan BBWS NT I Mataram'}
