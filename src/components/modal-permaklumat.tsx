@@ -1,35 +1,35 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-// import axios from '../libs/axios'
-// import { useIp } from '../providers/IpProvider'
+import axios from '../libs/axios'
+import { useIp } from '../providers/IpProvider'
 // import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 export function ModalPermaklumat() {
-    // const { ip } = useIp()
+    const { ip } = useIp()
     const [open, setOpen] = useState(true)
-    // const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const cancelButtonRef = useRef(null)
 
-    // const saveHaveReadPermaklumat = async (e: any) => {
-    //     e.preventDefault()
-    //     setIsLoading(true)
-    //     try {
-    //         const res = await axios.post('/api/maklumat',
-    //             { ip: ip },
-    //             {
-    //                 headers: {
-    //                     'Authorization': 'Basic c3VydmV5c2lzZGE6cGFzczJzaXNkYXN1cnZleQ=='
-    //                 }
-    //             }
-    //         )
-    //         console.log('have read', res.data)
-    //         setOpen(false)
-    //     } catch (error) {
-    //         console.error(error)
-    //     } finally {
-    //         setIsLoading(false)
-    //     }
-    // }
+    const saveHaveReadPermaklumat = async (e: any) => {
+        e.preventDefault()
+        setIsLoading(true)
+        try {
+            const res = await axios.post('/api/maklumat',
+                { ip: ip },
+                {
+                    headers: {
+                        'Authorization': 'Basic c3VydmV5c2lzZGE6cGFzczJzaXNkYXN1cnZleQ=='
+                    }
+                }
+            )
+            console.log('have read', res.data)
+            setOpen(false)
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -80,11 +80,13 @@ export function ModalPermaklumat() {
                                     <button
                                         type="button"
                                         className="inline-flex w-full justify-center rounded-md bg-blue-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 sm:ml-3 sm:w-auto"
-                                        onClick={() => setOpen(false)}
-                                        >
-                                        Kami telah membaca dan memahami maklumat pelayanan BBWS NT I Mataram
+                                        onClick={
+                                            saveHaveReadPermaklumat
+                                        }
+                                    >
+                                        {isLoading ? 'Loading...' :
+                                            'Kami telah membaca dan memahami maklumat pelayanan BBWS NT I Mataram'}
                                     </button>
-
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>

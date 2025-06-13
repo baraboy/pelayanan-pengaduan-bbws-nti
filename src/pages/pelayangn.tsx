@@ -51,7 +51,7 @@ export default function Pelayanan() {
                     <h2 className="text-2xl font-semibold">Layanan</h2>
 
                     <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <Link to={'https://sda.pu.go.id/balai/bwsnt1/kontak'} target="_blank" className="rounded-lg border p-2">
+                        <Link to={'https://sda.pu.go.id/balai/bbwsnt1/kontak'} target="_blank" className="rounded-lg border p-2">
                             <div className="aspect-square bg-gray-200 rounded-md">
                                 <img className="w-full h-full object-cover" src="/contact-us.jpeg" alt="" />
                             </div>
