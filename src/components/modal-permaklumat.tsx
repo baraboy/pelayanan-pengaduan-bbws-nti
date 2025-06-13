@@ -74,7 +74,7 @@ export function ModalPermaklumat() {
 
                                         </div>
                                     </div> */}
-                                    <img className="w-full rounded-lg" src="/permaklumat.jpeg" alt="" />
+                                    <img className="w-full rounded-lg" src="/permaklumat.png" alt="" />
                                 </div>
                                 <div className="bg-gray-50 px-4 py-3 flex justify-center">
                                     <button
