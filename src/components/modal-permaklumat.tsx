@@ -1,13 +1,13 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import axios from '../libs/axios'
+// import axios from '../libs/axios'
 import { useIp } from '../providers/IpProvider'
 // import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 export function ModalPermaklumat() {
-    const { ip } = useIp()
-    const [open, setOpen] = useState(true)
-    const [isLoading, setIsLoading] = useState(false)
+    // const { ip } = useIp()
+    // const [open, setOpen] = useState(true)
+    // const [isLoading, setIsLoading] = useState(false)
     const cancelButtonRef = useRef(null)
 
     // const saveHaveReadPermaklumat = async (e: any) => {
