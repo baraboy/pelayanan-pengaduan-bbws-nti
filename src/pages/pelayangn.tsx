@@ -91,7 +91,7 @@ export default function Pelayanan() {
                                 <div className="font-semibold">
                                     WISPU
                                 </div>
-                                <p className="text-sm text-gray-500">Laporkan jika anda melihat pelanggaran/kecurangan dari Pejabat/Pegawai Balai Wilayah Sungai Nusa Tenggara I</p>
+                                <p className="text-sm text-gray-500">Laporkan jika anda melihat pelanggaran/kecurangan dari Pejabat/Pegawai Balai Besar Wilayah Sungai Nusa Tenggara I Mataram</p>
                             </div>
                         </Link>
                         <Link to={'https://www.lapor.go.id/'} target="_blank" className="rounded-lg border p-2">
@@ -102,7 +102,7 @@ export default function Pelayanan() {
                                 <div className="font-semibold">
                                     LAPOR
                                 </div>
-                                <p className="text-sm text-gray-500">Laporkan jika anda melihat pelanggaran/kecurangan dari Pejabat/Pegawai Balai Wilayah Sungai Nusa Tenggara I</p>
+                                <p className="text-sm text-gray-500">Laporkan jika anda melihat pelanggaran/kecurangan dari Pejabat/Pegawai Balai Besar Wilayah Sungai Nusa Tenggara I Mataram</p>
                             </div>
                         </Link>
                         <Link to={'https://gol.itjen.pu.go.id/'} target="_blank" className="rounded-lg border p-2">
@@ -113,7 +113,7 @@ export default function Pelayanan() {
                                 <div className="font-semibold">
                                     E-GRATIFIKASI
                                 </div>
-                                <p className="text-sm text-gray-500">Laporkan jika anda melihat tindakan gratifikasi dari Pejabat/Pegawai Balai Wilayah Sungai Nusa Tenggara I</p>
+                                <p className="text-sm text-gray-500">Laporkan jika anda melihat tindakan gratifikasi dari Pejabat/Pegawai Balai Besar Wilayah Sungai Nusa Tenggara I Mataram</p>
                             </div>
                         </Link>
 
@@ -123,7 +123,7 @@ export default function Pelayanan() {
                             </div>
                             <div className="mt-2">
                                 <div className="font-semibold uppercase">
-                                    Kanal pengaduan gratifikasi dan penyuapan BWS NT 1
+                                    Kanal pengaduan gratifikasi dan penyuapan BBWS NT I Mataram
                                 </div>
                                 <p className="text-sm text-gray-500">
                                     Laporkan jika anda melihat tindakan gratifikasi dan penyuapan dari Pejabat/Pegawai Kepada Tim UPG ata Tim FKAP Balai Wilayah Sungai Nusa Tenggara I

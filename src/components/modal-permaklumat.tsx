@@ -85,7 +85,7 @@ export function ModalPermaklumat() {
                                         }
                                     >
                                         {isLoading ? 'Loading...' :
-                                            'Kami telah membaca dan memahami maklumat pelayanan BWS NT 1'}
+                                            'Kami telah membaca dan memahami maklumat pelayanan BBWS NT I Mataram'}
                                     </button>
                                 </div>
                             </Dialog.Panel>

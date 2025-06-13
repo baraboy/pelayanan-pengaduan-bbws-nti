@@ -51,14 +51,14 @@ export default function Thanks() {
                 <div className="mx-auto max-w-3xl px-4 pt-16 relative z-10">
                     <div className="p-16 bg-white shadow rounded-xl border mt-32">
                         <div className="text-center text-3xl font-bold">Terima Kasih</div>
-                        <div className="text-center font-medium mt-8">Terima kasih sudah ikut berpartisipasi dalam meningkatkan kualitas pelayanan<br /> Balai Wilayah Sungai Nusa Tenggara 1</div>
+                        <div className="text-center font-medium mt-8">Terima kasih sudah ikut berpartisipasi dalam meningkatkan kualitas pelayanan<br /> Balai Besar Wilayah Sungai Nusa Tenggara I Mataram</div>
 
                         <div className="flex justify-center mt-8">
-                            <Link to={'http://sda.pu.go.id/balai/bwsnt1'}>
+                            <Link to={'http://sda.pu.go.id/balai/bbwsnt1'}>
                                 <button
                                     className="rounded-md mt-2 w-full bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                                 >
-                                    Kembali ke Web BWS NT 1
+                                    Kembali ke Web BBWS NT I Mataram
                                 </button>
                             </Link>
                         </div>

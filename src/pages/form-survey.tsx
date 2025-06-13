@@ -170,7 +170,7 @@ export default function FormSurvey() {
                         <h1 className="font-semibold text-4xl text-center text-white">Survey Kepuasan Masyarakat</h1>
                         <div className="p-6 bg-white shadow rounded-xl border mt-8">
                             <h2 className="text-base font-semibold leading-7 text-gray-900">Form Survey Kepuasan Masyarakat</h2>
-                            <p className="mt-1 text-sm leading-6 text-gray-600">Survey Kepuasan Masyarakat dalam pelayanan BBWS NT 1</p>
+                            <p className="mt-1 text-sm leading-6 text-gray-600">Survey Kepuasan Masyarakat dalam pelayanan BBWS NT I Mataram</p>
 
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="sm:col-span-3">

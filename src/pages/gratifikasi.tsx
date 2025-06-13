@@ -145,8 +145,8 @@ export default function Gratifikasi() {
                     <form onSubmit={handleOnSubmit}>
                         <h1 className="font-semibold text-4xl text-center text-white">Gratifikasi / Penyuapan</h1>
                         <div className="p-6 bg-white shadow rounded-xl border mt-8">
-                            <h2 className="text-base font-semibold leading-7 text-gray-900">Form Laporan Gratifikasi / Penyuapan BBWS NT 1</h2>
-                            <p className="mt-1 text-sm leading-6 text-gray-600">Laporan Gratifikasi / Penyuapan di lingkungan BBWS NT 1</p>
+                            <h2 className="text-base font-semibold leading-7 text-gray-900">Form Laporan Gratifikasi / Penyuapan BBWS NT Mataram</h2>
+                            <p className="mt-1 text-sm leading-6 text-gray-600">Laporan Gratifikasi / Penyuapan di lingkungan BBWS NT I Mataram</p>
 
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="sm:col-span-6">
