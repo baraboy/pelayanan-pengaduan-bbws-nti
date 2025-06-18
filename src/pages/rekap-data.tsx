@@ -18,21 +18,47 @@ type DataAvr = {
     penanganan_pengaduan: number,
 }
 
+// Ini perhitungan triwulan normal
+// const monthToTM = (): string => {
+//     const d = new Date();
+//     let month = d.getMonth();
+
+//     if (month == 1 || month == 2 || month == 3) {
+//         return "1";
+//     } else if (month == 4 || month == 5 || month == 6) {
+//         return "2";
+//     } else if (month == 7 || month == 8 || month == 8) {
+//         return "3";
+//     } else if (month == 9 || month == 11 || month == 12) {
+//         return "4";
+//     }
+
+//     return "0";
+// }
+
+// Ini perhitungan custom
 const monthToTM = (): string => {
-    const d = new Date();
-    let month = d.getMonth();
+  const now = new Date();
+  const year = now.getFullYear();
 
-    if (month == 1 || month == 2 || month == 3) {
-        return "1";
-    } else if (month == 4 || month == 5 || month == 6) {
-        return "2";
-    } else if (month == 7 || month == 8 || month == 8) {
-        return "3";
-    } else if (month == 9 || month == 11 || month == 12) {
-        return "4";
-    }
+  const q1Start = new Date(`${year - 1}-12-10`);
+  const q1End = new Date(`${year}-03-09`);
 
-    return "0";
+  const q2Start = new Date(`${year}-03-10`);
+  const q2End = new Date(`${year}-06-09`);
+
+  const q3Start = new Date(`${year}-06-10`);
+  const q3End = new Date(`${year}-09-09`);
+
+  const q4Start = new Date(`${year}-09-10`);
+  const q4End = new Date(`${year}-12-09`);
+
+  if (now >= q1Start && now <= q1End) return "1";
+  if (now >= q2Start && now <= q2End) return "2";
+  if (now >= q3Start && now <= q3End) return "3";
+  if (now >= q4Start && now <= q4End) return "4";
+
+  return "0";
 }
 
 export default function RekapData() {
