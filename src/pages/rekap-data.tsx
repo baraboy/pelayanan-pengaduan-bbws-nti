@@ -284,15 +284,15 @@ export default function RekapData() {
 
             if (
                 data[i].pekerjaan != "Pelajar/Mahasiswa"
-                || data[i].pekerjaan != "Guru/Dosen"
-                || data[i].pekerjaan != "ASN"
-                || data[i].pekerjaan != "Karyawan Swasta"
-                || data[i].pekerjaan != "Karyawan BUMN"
-                || data[i].pekerjaan != "Petani"
-                || data[i].pekerjaan != "Nelayan"
-                || data[i].pekerjaan != "Freelancer"
-                || data[i].pekerjaan != "Tidak Bekerja"
-                || data[i].pekerjaan != "Guru/Dosen"
+                && data[i].pekerjaan != "Guru/Dosen"
+                && data[i].pekerjaan != "ASN"
+                && data[i].pekerjaan != "Karyawan Swasta"
+                && data[i].pekerjaan != "Karyawan BUMN"
+                && data[i].pekerjaan != "Petani"
+                && data[i].pekerjaan != "Nelayan"
+                && data[i].pekerjaan != "Freelancer"
+                && data[i].pekerjaan != "Tidak Bekerja"
+                && data[i].pekerjaan != "Guru/Dosen"
             ) {
                 pekerjaan_10 += 1
             }
@@ -321,12 +321,12 @@ export default function RekapData() {
                 pelayanan_6 += 1
             }
 
-            if (data[i].jenis_pelayanan != "Pelayanan Permohonan Informasi Publik dan Pengaduan" ||
-                data[i].jenis_pelayanan != "Pelayanan Rekomendasi Teknis" ||
-                data[i].jenis_pelayanan != "Pelayanan Unit Alokasi Air" ||
-                data[i].jenis_pelayanan != "Pelayanan Penanggulangan Banjir dan Bencana" ||
-                data[i].jenis_pelayanan != "Pelayanan Hidrologi dan Kualitas Air" ||
-                data[i].jenis_pelayanan != "Pelayanan Pengujian Laboratorium" ||
+            if (data[i].jenis_pelayanan != "Pelayanan Permohonan Informasi Publik dan Pengaduan" &&
+                data[i].jenis_pelayanan != "Pelayanan Rekomendasi Teknis" &&
+                data[i].jenis_pelayanan != "Pelayanan Unit Alokasi Air" &&
+                data[i].jenis_pelayanan != "Pelayanan Penanggulangan Banjir dan Bencana" &&
+                data[i].jenis_pelayanan != "Pelayanan Hidrologi dan Kualitas Air" &&
+                data[i].jenis_pelayanan != "Pelayanan Pengujian Laboratorium" &&
                 data[i].jenis_pelayanan != "Pelayanan Permohonan Informasi Publik dan Pengaduan"
             ) {
                 pelayanan_7 += 1
