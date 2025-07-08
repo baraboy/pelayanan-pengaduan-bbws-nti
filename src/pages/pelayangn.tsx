@@ -126,7 +126,7 @@ export default function Pelayanan() {
                                     Kanal pengaduan gratifikasi dan penyuapan BBWS NT I Mataram
                                 </div>
                                 <p className="text-sm text-gray-500">
-                                    Laporkan jika anda melihat tindakan gratifikasi dan penyuapan dari Pejabat/Pegawai Kepada Tim UPG ata Tim FKAP Balai Wilayah Sungai Nusa Tenggara I
+                                    Laporkan jika anda melihat tindakan gratifikasi dan penyuapan dari Pejabat/Pegawai Kepada Tim UPG atau Tim FKAP Balai Wilayah Sungai Nusa Tenggara I
                                 </p>
                             </div>
                         </Link>
