@@ -82,8 +82,8 @@ export default function Pelayanan() {
 
                     <h2 className="text-2xl font-semibold mt-8">Pengaduan</h2>
 
-                    {/* <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <Link to={'https://wispu.pu.go.id/'} target="_blank" className="rounded-lg border p-2">
+                    <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {/* <Link to={'https://wispu.pu.go.id/'} target="_blank" className="rounded-lg border p-2">
                             <div className="aspect-square bg-gray-200 rounded-md">
                                 <img className="w-full h-full object-cover" src="/wispu.png" alt="" />
                             </div>
@@ -126,7 +126,7 @@ export default function Pelayanan() {
                                     Kanal pengaduan gratifikasi dan penyuapan BBWS NT I Mataram
                                 </div>
                                 <p className="text-sm text-gray-500">
-                                    Laporkan jika anda melihat tindakan gratifikasi dan penyuapan dari Pejabat/Pegawai Kepada Tim UPG atau Tim FKAP Balai Besar Wilayah Sungai Nusa Tenggara I Mataram
+                                    Laporkan jika anda melihat tindakan gratifikasi dan penyuapan dari Pejabat/Pegawai Kepada Tim UPG atau Tim FKAP Balai Wilayah Sungai Nusa Tenggara I
                                 </p>
                             </div>
                         </Link>
