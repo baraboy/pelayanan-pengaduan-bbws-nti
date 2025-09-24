@@ -50,8 +50,7 @@ export default function Pelayanan() {
                 <div className="bg-white shadow rounded-xl border p-6 mt-8">
                     <h2 className="text-2xl font-semibold">Layanan</h2>
 
-                    {/* <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4"> */}
-                    <div className="mt-6 flex justify-center gap-4">
+                    {/* <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                         <Link to={'https://sda.pu.go.id/balai/bbwsnt1/kontak'} target="_blank" className="rounded-lg border p-2">
                             <div className="aspect-square bg-gray-200 rounded-md">
                                 <img className="w-full h-full object-cover" src="/contact-us.jpeg" alt="" />
@@ -70,15 +69,35 @@ export default function Pelayanan() {
                             </div>
                         </Link>
 
-                        {/* <Link to={'https://sahabat.pu.go.id/eppid/'} target="_blank" className="rounded-lg border p-2">
+                        <Link to={'https://sahabat.pu.go.id/eppid/'} target="_blank" className="rounded-lg border p-2">
                             <div className="aspect-square bg-gray-200 rounded-md">
                                 <img className="w-full h-full object-cover" src="/pu.jpg" alt="" />
                             </div>
                             <div className="mt-2 font-semibold">
                                 E-PPID
                             </div>
-                        </Link> */}
+                        </Link>
+                    </div> */}
+                    <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Link to={'https://sda.pu.go.id/balai/bbwsnt1/kontak'} target="_blank" className="rounded-lg border p-2">
+                            <div className="aspect-square bg-gray-200 rounded-md">
+                            <img className="w-full h-full object-cover" src="/contact-us.jpeg" alt="" />
+                            </div>
+                            <div className="mt-2 font-semibold">
+                            KONTAK KAMI
+                            </div>
+                        </Link>
+
+                        <Link to={'https://erekomtek.bwsnt1.net/login'} target="_blank" className="rounded-lg border p-2">
+                            <div className="aspect-square bg-gray-200 rounded-md">
+                            <img className="w-full h-full object-cover" src="/report.png" alt="" />
+                            </div>
+                            <div className="mt-2 font-semibold">
+                            E-REKOMTEK
+                            </div>
+                        </Link>
                     </div>
+
 
 
                     <h2 className="text-2xl font-semibold mt-8">Pengaduan</h2>
