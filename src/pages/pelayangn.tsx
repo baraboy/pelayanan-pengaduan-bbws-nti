@@ -69,14 +69,14 @@ export default function Pelayanan() {
                             </div>
                         </Link>
 
-                        <Link to={'https://sahabat.pu.go.id/eppid/'} target="_blank" className="rounded-lg border p-2">
+                        {/* <Link to={'https://sahabat.pu.go.id/eppid/'} target="_blank" className="rounded-lg border p-2">
                             <div className="aspect-square bg-gray-200 rounded-md">
                                 <img className="w-full h-full object-cover" src="/pu.jpg" alt="" />
                             </div>
                             <div className="mt-2 font-semibold">
                                 E-PPID
                             </div>
-                        </Link>
+                        </Link> */}
                     </div>
 
 
@@ -116,21 +116,21 @@ export default function Pelayanan() {
                                 <p className="text-sm text-gray-500">Laporkan jika anda melihat tindakan gratifikasi dari Pejabat/Pegawai Balai Besar Wilayah Sungai Nusa Tenggara I Mataram</p>
                             </div>
                         </Link> */}
-
-                        <Link to={'/gratifikasi'} className="rounded-lg border p-2">
-                            <div className="aspect-square bg-gray-200 rounded-md">
-                                <img className="w-full h-full object-cover" src="/ilustrasi-suap.jpg" alt="" />
-                            </div>
-                            <div className="mt-2">
-                                <div className="font-semibold uppercase">
-                                    Kanal pengaduan gratifikasi dan penyuapan BBWS NT I Mataram
+                        <div className="md:col-start-2">
+                            <Link to={'/gratifikasi'} className="rounded-lg border p-2">
+                                <div className="aspect-square bg-gray-200 rounded-md">
+                                    <img className="w-full h-full object-cover" src="/ilustrasi-suap.jpg" alt="" />
                                 </div>
-                                <p className="text-sm text-gray-500">
-                                    Laporkan jika anda melihat tindakan gratifikasi dan penyuapan dari Pejabat/Pegawai Kepada Tim UPG atau Tim FKAP Balai Wilayah Sungai Nusa Tenggara I
-                                </p>
-                            </div>
-                        </Link>
-
+                                <div className="mt-2">
+                                    <div className="font-semibold uppercase">
+                                        Kanal pengaduan gratifikasi dan penyuapan BBWS NT I Mataram
+                                    </div>
+                                    <p className="text-sm text-gray-500">
+                                        Laporkan jika anda melihat tindakan gratifikasi dan penyuapan dari Pejabat/Pegawai Kepada Tim UPG atau Tim FKAP Balai Besar Wilayah Sungai Nusa Tenggara I Mataram
+                                    </p>
+                                </div>
+                            </Link>
+                        </div>
                     </div>
 
                 </div>
