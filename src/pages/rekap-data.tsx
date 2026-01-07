@@ -1,4 +1,3 @@
-import { format } from "date-fns"
 import JenisKelaminChart from "../components/jenis-kelamin-chart"
 import PendidikanChart from "../components/pendidikan-chart"
 import SurveyChart from "../components/survey-chart"
@@ -62,7 +61,30 @@ const monthToTM = (): string => {
 }
 
 export default function RekapData() {
-    const [tm, setTm] = useState(monthToTM());
+    const periodOptions = [
+        { value: "2025-q1", label: "Triwulan I (2025)", year: 2025, type: "quarter", tm: "1" },
+        { value: "2025-q2", label: "Triwulan II (2025)", year: 2025, type: "quarter", tm: "2" },
+        { value: "2025-q3", label: "Triwulan III (2025)", year: 2025, type: "quarter", tm: "3" },
+        { value: "2025-q4", label: "Triwulan IV (2025)", year: 2025, type: "quarter", tm: "4" },
+        { value: "2026-s1", label: "Semester I (2026)", year: 2026, type: "semester", tm: "1-2" },
+        { value: "2026-s2", label: "Semester II (2026)", year: 2026, type: "semester", tm: "3-4" },
+    ];
+
+    const currentYear = new Date().getFullYear();
+    const currentQuarter = monthToTM();
+    const defaultPeriodValue =
+        periodOptions.find((option) => {
+            if (currentYear === 2025 && option.type === "quarter") {
+                return option.tm === currentQuarter;
+            }
+            if (currentYear === 2026 && option.type === "semester") {
+                const semester = currentQuarter === "1" || currentQuarter === "2" ? "1" : "2";
+                return option.value === `2026-s${semester}`;
+            }
+            return false;
+        })?.value || periodOptions[0].value;
+
+    const [selectedPeriod, setSelectedPeriod] = useState(defaultPeriodValue);
     const [isLoading, setIsLoading] = useState(false)
     const [avgData, setAvgData] = useState<DataAvr>()
     const [avrTetimbangData, setAvrTetimbangData] = useState<DataAvr>()
@@ -117,20 +139,36 @@ export default function RekapData() {
 
     useEffect(() => {
         fetAllSurvey()
-    }, [tm])
+    }, [selectedPeriod])
 
     const fetAllSurvey = async () => {
         setIsLoading(true)
         try {
-            const res = await axios.get('/api/survey?all=true&trismester=' + tm + '&year=' + format(new Date(), 'yyyy'),
-                {
-                    headers: {
-                        'Authorization': 'Basic c3VydmV5c2lzZGE6cGFzczJzaXNkYXN1cnZleQ=='
-                    }
+            const period = periodOptions.find((option) => option.value === selectedPeriod) || periodOptions[0];
+            const headers = {
+                headers: {
+                    'Authorization': 'Basic c3VydmV5c2lzZGE6cGFzczJzaXNkYXN1cnZleQ=='
                 }
-            )
-            console.log('response rekap', res.data)
-            itemAverage(res.data.data)
+            };
+
+            if (period.type === "semester") {
+                const [first, second] = period.tm.split("-");
+                const [resFirst, resSecond] = await Promise.all([
+                    axios.get(`/api/survey?all=true&trismester=${first}&year=${period.year}`, headers),
+                    axios.get(`/api/survey?all=true&trismester=${second}&year=${period.year}`, headers),
+                ]);
+
+                const combinedData = [
+                    ...(resFirst.data?.data || []),
+                    ...(resSecond.data?.data || []),
+                ];
+                console.log('response rekap semester', combinedData)
+                itemAverage(combinedData)
+            } else {
+                const res = await axios.get(`/api/survey?all=true&trismester=${period.tm}&year=${period.year}`, headers)
+                console.log('response rekap', res.data)
+                itemAverage(res.data.data)
+            }
         } catch (error) {
             console.error(error)
         } finally {
@@ -602,15 +640,16 @@ export default function RekapData() {
                                 name="country"
                                 autoComplete="country-name"
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                value={tm}
+                                value={selectedPeriod}
                                 onChange={(e) => {
-                                    setTm(e.target.value)
+                                    setSelectedPeriod(e.target.value)
                                 }}
                             >
-                                <option value={1}>Triwulan 1 ({format(new Date(), 'yyyy')})</option>
-                                <option value={2}>Triwulan 2 ({format(new Date(), 'yyyy')})</option>
-                                <option value={3}>Triwulan 3 ({format(new Date(), 'yyyy')})</option>
-                                <option value={4}>Triwulan 4 ({format(new Date(), 'yyyy')})</option>
+                                {periodOptions.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                     </div>
