@@ -1,5 +1,5 @@
 import Wave from "react-wavify"
-import { loadCaptchaEnginge, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import axios from "../libs/axios";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function FormSurvey() {
     const navigate = useNavigate()
     const captchaRef = useRef<any>()
+    const captchaLength = 6
     const [formData, setFormData] = useState({
         nama: "",
         no_hp: "",
@@ -36,7 +37,7 @@ export default function FormSurvey() {
     const [valueFormPelayananLainnya, setValueFormPelayananLainnya] = useState("")
 
     useEffect(() => {
-        loadCaptchaEnginge(6);
+        loadCaptchaEnginge(captchaLength);
     }, [])
 
     useEffect(() => {
@@ -70,6 +71,7 @@ export default function FormSurvey() {
         }
 
         else {
+            loadCaptchaEnginge(captchaLength);
             return false
         }
     };
@@ -1125,7 +1127,7 @@ export default function FormSurvey() {
                                     <div className="w-full flex justify-center rounded-lg border p-4">
                                         <div className="flex flex-wrap justify-center gap-4 items-center text-sm mt-2">
                                             <div>
-                                                <LoadCanvasTemplateNoReload />
+                                                <LoadCanvasTemplate />
                                             </div>
                                             <div>
                                                 <input

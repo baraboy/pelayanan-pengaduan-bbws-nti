@@ -9,6 +9,7 @@ import UploadFile from "../components/upload-file";
 export default function Gratifikasi() {
     const navigate = useNavigate()
     const captchaRef = useRef<any>()
+    const captchaLength = 6
     const [formData, setFormData] = useState<any>({
         nama: "",
         jenis_pelaporan: "",
@@ -22,7 +23,7 @@ export default function Gratifikasi() {
     const [valueAsalPelaporanIsLainnya, setValueAsalPelaporanIsLainnya] = useState("")
 
     useEffect(() => {
-        loadCaptchaEnginge(6);
+        loadCaptchaEnginge(captchaLength);
     }, [])
 
     useEffect(() => {
@@ -51,6 +52,7 @@ export default function Gratifikasi() {
         }
 
         else {
+            loadCaptchaEnginge(captchaLength);
             return false
         }
     };
