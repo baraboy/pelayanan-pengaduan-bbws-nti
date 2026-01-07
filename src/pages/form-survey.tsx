@@ -1,5 +1,5 @@
 import Wave from "react-wavify"
-import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import { loadCaptchaEnginge, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import axios from "../libs/axios";
 import { useNavigate } from "react-router-dom";
@@ -75,6 +75,10 @@ export default function FormSurvey() {
             return false
         }
     };
+
+    const reloadCaptcha = () => {
+        loadCaptchaEnginge(captchaLength);
+    }
 
     const handleOnChange = (e: any) => {
         setFormData({
@@ -1126,8 +1130,29 @@ export default function FormSurvey() {
                                 <div className="sm:col-span-6">
                                     <div className="w-full flex justify-center rounded-lg border p-4">
                                         <div className="flex flex-wrap justify-center gap-4 items-center text-sm mt-2">
-                                            <div>
-                                                <LoadCanvasTemplate />
+                                            <div className="flex flex-col items-center gap-2">
+                                                <LoadCanvasTemplateNoReload />
+                                                <button
+                                                    type="button"
+                                                    onClick={reloadCaptcha}
+                                                    className="inline-flex items-center gap-2 rounded-md border px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth={1.5}
+                                                        stroke="currentColor"
+                                                        className="h-4 w-4"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M16.023 9.348h4.992m0 0-1.5-1.5m1.5 1.5-1.5 1.5M7.98 14.652H2.988m0 0 1.5 1.5m-1.5-1.5 1.5-1.5M12 6.75a5.25 5.25 0 0 1 5.25 5.25v.75m-10.5 0V12A5.25 5.25 0 0 1 12 6.75m0 10.5a5.25 5.25 0 0 1-5.25-5.25v-.75m10.5 0V12A5.25 5.25 0 0 1 12 17.25"
+                                                        />
+                                                    </svg>
+                                                    Muat ulang captcha
+                                                </button>
                                             </div>
                                             <div>
                                                 <input
