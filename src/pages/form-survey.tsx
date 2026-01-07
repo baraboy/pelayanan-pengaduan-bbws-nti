@@ -1136,8 +1136,8 @@ export default function FormSurvey() {
                                                     type="button"
                                                     onClick={reloadCaptcha}
                                                     className="inline-flex items-center justify-center rounded-md border p-2 text-gray-700 hover:bg-gray-50"
-                                                    aria-label="Muat ulang captcha"
-                                                    title="Muat ulang captcha"
+                                                    aria-label="Reload Captcha"
+                                                    title="Reload Captcha"
                                                 >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                                                         <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>

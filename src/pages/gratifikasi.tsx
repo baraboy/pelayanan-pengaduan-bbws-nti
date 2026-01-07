@@ -278,8 +278,8 @@ export default function Gratifikasi() {
                                                     type="button"
                                                     onClick={reloadCaptcha}
                                                     className="inline-flex items-center justify-center rounded-md border p-2 text-gray-700 hover:bg-gray-50"
-                                                    aria-label="Muat ulang captcha"
-                                                    title="Muat ulang captcha"
+                                                    aria-label="Reload Captcha"
+                                                    title="Reload Captcha"
                                                 >
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
