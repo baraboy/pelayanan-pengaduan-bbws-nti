@@ -1139,19 +1139,9 @@ export default function FormSurvey() {
                                                     aria-label="Muat ulang captcha"
                                                     title="Muat ulang captcha"
                                                 >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        strokeWidth={1.5}
-                                                        stroke="currentColor"
-                                                        className="h-4 w-4"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="M16.023 9.348h4.992m0 0-1.5-1.5m1.5 1.5-1.5 1.5M7.98 14.652H2.988m0 0 1.5 1.5m-1.5-1.5 1.5-1.5M12 6.75a5.25 5.25 0 0 1 5.25 5.25v.75m-10.5 0V12A5.25 5.25 0 0 1 12 6.75m0 10.5a5.25 5.25 0 0 1-5.25-5.25v-.75m10.5 0V12A5.25 5.25 0 0 1 12 17.25"
-                                                        />
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                                                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
                                                     </svg>
                                                 </button>
                                             </div>
