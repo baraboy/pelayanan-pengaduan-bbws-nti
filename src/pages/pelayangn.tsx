@@ -147,8 +147,8 @@ export default function Pelayanan() {
                         </Link> */}
                         <div className="max-w-sm w-full mx-auto">
                             <Link to={'/gratifikasi'} className="rounded-lg border p-2">
-                                <div className="aspect-square bg-gray-200 rounded-md">
-                                    <img className="w-full h-full object-cover" src="/ilustrasi-suap.jpg" alt="" />
+                                <div className="aspect-square bg-gray-200 rounded-md overflow-hidden">
+                                    <img className="w-full h-full object-cover scale-95" src="/ilustrasi-suap.jpg" alt="" />
                                 </div>
                                 <div className="mt-2">
                                     <div className="font-semibold uppercase">
