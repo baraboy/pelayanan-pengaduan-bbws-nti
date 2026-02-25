@@ -78,7 +78,7 @@ export default function Pelayanan() {
                             </div>
                         </Link>
                     </div> */}
-                    <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                         <Link to={'https://sda.pu.go.id/balai/bbwsnt1/kontak'} target="_blank" className="rounded-lg border p-2">
                             <div className="aspect-square bg-gray-200 rounded-md">
                             <img className="w-full h-full object-cover" src="/contact-us.jpeg" alt="" />
@@ -96,13 +96,22 @@ export default function Pelayanan() {
                             E-REKOMTEK
                             </div>
                         </Link>
+
+                        <Link to={'https://layanan-data.bwsnt1.net/'} target="_blank" className="rounded-lg border p-2">
+                            <div className="aspect-square bg-gray-200 rounded-md">
+                                <img className="w-full h-full object-cover" src="/permohonan-data.png" alt="" />
+                            </div>
+                            <div className="mt-2 font-semibold">
+                                PERMOHONAN DATA
+                            </div>
+                        </Link>
                     </div>
 
 
 
                     <h2 className="text-2xl font-semibold mt-8">Pengaduan</h2>
 
-                    <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="mt-6 grid grid-cols-1 gap-4">
                         {/* <Link to={'https://wispu.pu.go.id/'} target="_blank" className="rounded-lg border p-2">
                             <div className="aspect-square bg-gray-200 rounded-md">
                                 <img className="w-full h-full object-cover" src="/wispu.png" alt="" />
@@ -136,7 +145,7 @@ export default function Pelayanan() {
                                 <p className="text-sm text-gray-500">Laporkan jika anda melihat tindakan gratifikasi dari Pejabat/Pegawai Balai Besar Wilayah Sungai Nusa Tenggara I Mataram</p>
                             </div>
                         </Link> */}
-                        <div className="md:col-start-2">
+                        <div className="max-w-sm w-full mx-auto">
                             <Link to={'/gratifikasi'} className="rounded-lg border p-2">
                                 <div className="aspect-square bg-gray-200 rounded-md">
                                     <img className="w-full h-full object-cover" src="/ilustrasi-suap.jpg" alt="" />
