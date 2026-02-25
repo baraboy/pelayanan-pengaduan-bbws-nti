@@ -97,7 +97,7 @@ export default function Pelayanan() {
                             </div>
                         </Link>
 
-                        <Link to={'https://layanan-data.bwsnt1.net/'} target="_blank" className="rounded-lg border p-2">
+                        <Link to={'https://sda.pu.go.id/balai/bbwsnt1/layanandata'} target="_blank" className="rounded-lg border p-2">
                             <div className="aspect-square bg-gray-200 rounded-md">
                                 <img className="w-full h-full object-cover" src="/permohonan-data.png" alt="" />
                             </div>
