@@ -6,7 +6,6 @@ import Pelayanan from "./pages/pelayangn";
 import { IpProvider } from "./providers/IpProvider";
 import RekapData from "./pages/rekap-data";
 import Gratifikasi from "./pages/gratifikasi";
-import PermohonanData from "./pages/permohonan-data";
 
 const router = createBrowserRouter([
   {
@@ -37,10 +36,6 @@ const router = createBrowserRouter([
         path: 'rekap-data',
         element: <RekapData />
       },
-      {
-        path: 'permohonan-data',
-        element: <PermohonanData />
-      }
     ]
   },
 

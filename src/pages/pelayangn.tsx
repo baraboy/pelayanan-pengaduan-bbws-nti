@@ -97,14 +97,6 @@ export default function Pelayanan() {
                             </div>
                         </Link>
 
-                        <Link to={'/permohonan-data'} target="_blank" className="rounded-lg border p-2">
-                            <div className="aspect-square bg-gray-200 rounded-md">
-                                <img className="w-full h-full object-cover" src="/permohonan-data.png" alt="" />
-                            </div>
-                            <div className="mt-2 font-semibold">
-                                PERMOHONAN DATA
-                            </div>
-                        </Link>
                     </div>
 
 
