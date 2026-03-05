@@ -69,29 +69,11 @@ const parseItemDate = (value: any): Date | null => {
     return null;
 };
 
-const findDateKey = (item: any): string | null => {
-    if (!item || typeof item !== "object") return null;
-    const candidates = [
-        "tanggal_kunjungan",
-        "tanggal",
-        "created_at",
-        "createdAt",
-        "created",
-        "date",
-    ];
-    for (const key of candidates) {
-        if (item[key]) return key;
-    }
-    return null;
-};
-
 const filterDataByRange = (data: any[], start: Date, end: Date) => {
     if (!Array.isArray(data) || data.length === 0) return [];
-    const dateKey = findDateKey(data[0]);
-    if (!dateKey) return data;
 
     return data.filter((item) => {
-        const dateValue = parseItemDate(item[dateKey]);
+        const dateValue = parseItemDate(item?.created_at);
         if (!dateValue) return false;
         return dateValue >= start && dateValue <= end;
     });
