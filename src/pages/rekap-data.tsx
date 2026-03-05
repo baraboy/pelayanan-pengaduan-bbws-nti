@@ -62,6 +62,9 @@ const monthToTM = (): string => {
 
 export default function RekapData() {
     const periodOptions = [
+        { value: "2024-q2", label: "Triwulan II (2024)", year: 2024, type: "quarter", tm: "2" },
+        { value: "2024-q3", label: "Triwulan III (2024)", year: 2024, type: "quarter", tm: "3" },
+        { value: "2024-q4", label: "Triwulan IV (2024)", year: 2024, type: "quarter", tm: "4" },
         { value: "2025-q1", label: "Triwulan I (2025)", year: 2025, type: "quarter", tm: "1" },
         { value: "2025-q2", label: "Triwulan II (2025)", year: 2025, type: "quarter", tm: "2" },
         { value: "2025-q3", label: "Triwulan III (2025)", year: 2025, type: "quarter", tm: "3" },
