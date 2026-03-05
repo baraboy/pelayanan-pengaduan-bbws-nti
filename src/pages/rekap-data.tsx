@@ -35,57 +35,157 @@ type DataAvr = {
 //     return "0";
 // }
 
-// Ini perhitungan custom
-const monthToTM = (): string => {
-  const now = new Date();
-  const year = now.getFullYear();
+type PeriodOption = {
+    value: string;
+    label: string;
+    year: number;
+    type: "quarter" | "semester";
+    tm: string;
+    start: Date;
+    end: Date;
+};
 
-  const q1Start = new Date(`${year - 1}-12-10`);
-  const q1End = new Date(`${year}-03-09`);
+const startOfDay = (year: number, month: number, day: number) =>
+    new Date(year, month - 1, day, 0, 0, 0, 0);
 
-  const q2Start = new Date(`${year}-03-10`);
-  const q2End = new Date(`${year}-06-09`);
+const endOfDay = (year: number, month: number, day: number) =>
+    new Date(year, month - 1, day, 23, 59, 59, 999);
 
-  const q3Start = new Date(`${year}-06-10`);
-  const q3End = new Date(`${year}-09-09`);
+const parseItemDate = (value: any): Date | null => {
+    if (!value) return null;
+    if (value instanceof Date) return value;
+    if (typeof value === "number") return new Date(value);
+    if (typeof value === "string") {
+        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (match) {
+            const year = Number(match[1]);
+            const month = Number(match[2]);
+            const day = Number(match[3]);
+            return new Date(year, month - 1, day, 0, 0, 0, 0);
+        }
+        const parsed = new Date(value);
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+    return null;
+};
 
-  const q4Start = new Date(`${year}-09-10`);
-  const q4End = new Date(`${year}-12-09`);
+const findDateKey = (item: any): string | null => {
+    if (!item || typeof item !== "object") return null;
+    const candidates = [
+        "tanggal_kunjungan",
+        "tanggal",
+        "created_at",
+        "createdAt",
+        "created",
+        "date",
+    ];
+    for (const key of candidates) {
+        if (item[key]) return key;
+    }
+    return null;
+};
 
-  if (now >= q1Start && now <= q1End) return "1";
-  if (now >= q2Start && now <= q2End) return "2";
-  if (now >= q3Start && now <= q3End) return "3";
-  if (now >= q4Start && now <= q4End) return "4";
+const filterDataByRange = (data: any[], start: Date, end: Date) => {
+    if (!Array.isArray(data) || data.length === 0) return [];
+    const dateKey = findDateKey(data[0]);
+    if (!dateKey) return data;
 
-  return "0";
-}
+    return data.filter((item) => {
+        const dateValue = parseItemDate(item[dateKey]);
+        if (!dateValue) return false;
+        return dateValue >= start && dateValue <= end;
+    });
+};
 
 export default function RekapData() {
-    const periodOptions = [
-        // { value: "2024-q2", label: "Triwulan II (2024)", year: 2024, type: "quarter", tm: "2" },
-        // { value: "2024-q3", label: "Triwulan III (2024)", year: 2024, type: "quarter", tm: "3" },
-        // { value: "2024-q4", label: "Triwulan IV (2024)", year: 2024, type: "quarter", tm: "4" },
-        { value: "2025-q1", label: "Triwulan I (2025)", year: 2025, type: "quarter", tm: "1" },
-        { value: "2025-q2", label: "Triwulan II (2025)", year: 2025, type: "quarter", tm: "2" },
-        { value: "2025-q3", label: "Triwulan III (2025)", year: 2025, type: "quarter", tm: "3" },
-        { value: "2025-q4", label: "Triwulan IV (2025)", year: 2025, type: "quarter", tm: "4" },
-        { value: "2026-s1", label: "Semester I (2026)", year: 2026, type: "semester", tm: "1-2" },
-        { value: "2026-s2", label: "Semester II (2026)", year: 2026, type: "semester", tm: "3-4" },
+    const periodOptions: PeriodOption[] = [
+        {
+            value: "2024-q2",
+            label: "Triwulan II (2024)",
+            year: 2024,
+            type: "quarter",
+            tm: "2",
+            start: startOfDay(2024, 4, 1),
+            end: endOfDay(2024, 6, 30),
+        },
+        {
+            value: "2024-q3",
+            label: "Triwulan III (2024)",
+            year: 2024,
+            type: "quarter",
+            tm: "3",
+            start: startOfDay(2024, 7, 1),
+            end: endOfDay(2024, 9, 30),
+        },
+        {
+            value: "2024-q4",
+            label: "Triwulan IV (2024)",
+            year: 2024,
+            type: "quarter",
+            tm: "4",
+            start: startOfDay(2024, 10, 1),
+            end: endOfDay(2024, 12, 31),
+        },
+        {
+            value: "2025-q1",
+            label: "Triwulan I (2025)",
+            year: 2025,
+            type: "quarter",
+            tm: "1",
+            start: startOfDay(2025, 1, 1),
+            end: endOfDay(2025, 3, 31),
+        },
+        {
+            value: "2025-q2",
+            label: "Triwulan II (2025)",
+            year: 2025,
+            type: "quarter",
+            tm: "2",
+            start: startOfDay(2025, 4, 1),
+            end: endOfDay(2025, 6, 9),
+        },
+        {
+            value: "2025-q3",
+            label: "Triwulan III (2025)",
+            year: 2025,
+            type: "quarter",
+            tm: "3",
+            start: startOfDay(2025, 6, 10),
+            end: endOfDay(2025, 9, 9),
+        },
+        {
+            value: "2025-q4",
+            label: "Triwulan IV (2025)",
+            year: 2025,
+            type: "quarter",
+            tm: "4",
+            start: startOfDay(2025, 9, 10),
+            end: endOfDay(2025, 12, 9),
+        },
+        {
+            value: "2026-s1",
+            label: "Semester I (2026)",
+            year: 2026,
+            type: "semester",
+            tm: "1-2",
+            start: startOfDay(2025, 12, 10),
+            end: endOfDay(2026, 6, 9),
+        },
+        {
+            value: "2026-s2",
+            label: "Semester II (2026)",
+            year: 2026,
+            type: "semester",
+            tm: "3-4",
+            start: startOfDay(2026, 6, 10),
+            end: endOfDay(2026, 12, 9),
+        },
     ];
 
-    const currentYear = new Date().getFullYear();
-    const currentQuarter = monthToTM();
+    const now = new Date();
     const defaultPeriodValue =
-        periodOptions.find((option) => {
-            if (currentYear === 2025 && option.type === "quarter") {
-                return option.tm === currentQuarter;
-            }
-            if (currentYear === 2026 && option.type === "semester") {
-                const semester = currentQuarter === "1" || currentQuarter === "2" ? "1" : "2";
-                return option.value === `2026-s${semester}`;
-            }
-            return false;
-        })?.value || periodOptions[0].value;
+        periodOptions.find((option) => now >= option.start && now <= option.end)?.value ||
+        periodOptions[0].value;
 
     const [selectedPeriod, setSelectedPeriod] = useState(defaultPeriodValue);
     const [isLoading, setIsLoading] = useState(false)
@@ -165,12 +265,14 @@ export default function RekapData() {
                     ...(resFirst.data?.data || []),
                     ...(resSecond.data?.data || []),
                 ];
-                console.log('response rekap semester', combinedData)
-                itemAverage(combinedData)
+                const filtered = filterDataByRange(combinedData, period.start, period.end);
+                console.log('response rekap semester', filtered)
+                itemAverage(filtered)
             } else {
                 const res = await axios.get(`/api/survey?all=true&trismester=${period.tm}&year=${period.year}`, headers)
-                console.log('response rekap', res.data)
-                itemAverage(res.data.data)
+                const filtered = filterDataByRange(res.data?.data || [], period.start, period.end);
+                console.log('response rekap', filtered)
+                itemAverage(filtered)
             }
         } catch (error) {
             console.error(error)
