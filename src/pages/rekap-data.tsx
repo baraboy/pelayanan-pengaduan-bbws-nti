@@ -149,7 +149,7 @@ export default function RekapData() {
             label: "Semester I (2026)",
             year: 2026,
             type: "semester",
-            tm: "1-2",
+            tm: "1",
             start: startOfDay(2025, 12, 10),
             end: endOfDay(2026, 6, 9),
         },
@@ -158,7 +158,7 @@ export default function RekapData() {
             label: "Semester II (2026)",
             year: 2026,
             type: "semester",
-            tm: "3-4",
+            tm: "2",
             start: startOfDay(2026, 6, 10),
             end: endOfDay(2026, 12, 9),
         },
@@ -236,26 +236,10 @@ export default function RekapData() {
                 }
             };
 
-            if (period.type === "semester") {
-                const [first, second] = period.tm.split("-");
-                const [resFirst, resSecond] = await Promise.all([
-                    axios.get(`/api/survey?all=true&trismester=${first}&year=${period.year}`, headers),
-                    axios.get(`/api/survey?all=true&trismester=${second}&year=${period.year}`, headers),
-                ]);
-
-                const combinedData = [
-                    ...(resFirst.data?.data || []),
-                    ...(resSecond.data?.data || []),
-                ];
-                const filtered = filterDataByRange(combinedData, period.start, period.end);
-                console.log('response rekap semester', filtered)
-                itemAverage(filtered)
-            } else {
-                const res = await axios.get(`/api/survey?all=true&trismester=${period.tm}&year=${period.year}`, headers)
-                const filtered = filterDataByRange(res.data?.data || [], period.start, period.end);
-                console.log('response rekap', filtered)
-                itemAverage(filtered)
-            }
+            const res = await axios.get(`/api/survey?all=true&trismester=${period.tm}&year=${period.year}`, headers)
+            const filtered = filterDataByRange(res.data?.data || [], period.start, period.end);
+            console.log('response rekap', filtered)
+            itemAverage(filtered)
         } catch (error) {
             console.error(error)
         } finally {
