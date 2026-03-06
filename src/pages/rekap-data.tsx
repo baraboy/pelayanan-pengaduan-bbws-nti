@@ -320,7 +320,7 @@ export default function RekapData() {
             avr.kesesuaian_pelayanan += data[i].kesesuaian_pelayanan
             avr.kesesuaian_persyaratan += data[i].kesesuaian_persyaratan
             avr.kewajaran_biaya += data[i].kewajaran_biaya
-            avr.kualitas_sarana += data[i].kewajaran_biaya
+            avr.kualitas_sarana += data[i].kualitas_sarana
             avr.penanganan_pengaduan += data[i].penanganan_pengaduan
             avr.perilaku_petugas += data[i].perilaku_petugas
 
