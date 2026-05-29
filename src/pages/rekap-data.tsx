@@ -269,6 +269,7 @@ export default function RekapData() {
     const [pelayananChartData, setPelayananChartData] = useState<any>([])
     const [trendData, setTrendData] = useState<any[]>([])
     const [isTrendLoading, setIsTrendLoading] = useState(false)
+    const [selectedIndicators, setSelectedIndicators] = useState<Array<keyof DataAvr>>(indicatorKeys)
 
     useEffect(() => {
         fetAllSurvey()
@@ -750,6 +751,15 @@ export default function RekapData() {
         setChartData(mChartData)
     }
 
+    const toggleIndicator = (indicator: keyof DataAvr) => {
+        setSelectedIndicators((prev) => {
+            if (prev.includes(indicator)) {
+                return prev.filter((item) => item !== indicator);
+            }
+            return [...prev, indicator];
+        });
+    }
+
     const mutuPelyanan = (ikm: number) => {
         if (ikm >= 0) {
             if (ikm <= 43.75) {
@@ -785,8 +795,39 @@ export default function RekapData() {
             <div className="border rounded-lg p-4 mb-8 bg-white">
                 <div className="font-semibold text-lg">Tren Indikator SKM per Periode</div>
                 <div className="text-sm text-gray-600 mt-1">Periode: TW II 2024 s.d Semester II 2026</div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                    <button
+                        type="button"
+                        className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-500"
+                        onClick={() => setSelectedIndicators(indicatorKeys)}
+                    >
+                        Pilih Semua
+                    </button>
+                    <button
+                        type="button"
+                        className="rounded-md border px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        onClick={() => setSelectedIndicators([])}
+                    >
+                        Reset
+                    </button>
+                </div>
+                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                    {indicatorKeys.map((key) => (
+                        <label key={key} className="inline-flex items-center gap-2 text-sm text-gray-700">
+                            <input
+                                type="checkbox"
+                                checked={selectedIndicators.includes(key)}
+                                onChange={() => toggleIndicator(key)}
+                                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            />
+                            {indicatorLabels[key]}
+                        </label>
+                    ))}
+                </div>
                 {isTrendLoading ? (
                     <div className="w-full p-8 text-center">Loading grafik tren...</div>
+                ) : selectedIndicators.length === 0 ? (
+                    <div className="w-full p-8 text-center text-gray-600">Belum ada indikator dipilih. Klik `Pilih Semua` atau centang indikator yang ingin ditampilkan.</div>
                 ) : (
                     <div className="w-full overflow-x-auto mt-4">
                         <div className="min-w-[1300px] h-[430px]">
@@ -797,7 +838,7 @@ export default function RekapData() {
                                     <YAxis domain={[0, 4]} fontSize={12} />
                                     <Tooltip />
                                     <Legend />
-                                    {indicatorKeys.map((key, index) => (
+                                    {selectedIndicators.map((key, index) => (
                                         <Bar key={key} dataKey={key} name={indicatorLabels[key]} fill={trendBarColors[index % trendBarColors.length]} />
                                     ))}
                                 </BarChart>
