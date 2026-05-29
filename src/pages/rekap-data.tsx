@@ -4,6 +4,7 @@ import SurveyChart from "../components/survey-chart"
 import axios from "../libs/axios"
 import { useEffect, useState } from "react"
 import UsiaChart from "../components/usia-chart"
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 
 type DataAvr = {
     kesesuaian_persyaratan: number,
@@ -16,6 +17,21 @@ type DataAvr = {
     kualitas_sarana: number,
     penanganan_pengaduan: number,
 }
+
+const indicatorLabels: Record<keyof DataAvr, string> = {
+    kesesuaian_persyaratan: "Kesesuaian Persyaratan",
+    kesesuaian_pelayanan: "Kesesuaian Pelayanan",
+    kemudahan_prosedur: "Kemudahan Prosedur",
+    kecepatan_pelayanan: "Kecepatan Pelayanan",
+    kewajaran_biaya: "Kewajaran Biaya",
+    kemampuan_petugas: "Kemampuan Petugas",
+    perilaku_petugas: "Perilaku Petugas",
+    kualitas_sarana: "Kualitas Sarana",
+    penanganan_pengaduan: "Penanganan Pengaduan",
+};
+
+const indicatorKeys = Object.keys(indicatorLabels) as Array<keyof DataAvr>;
+const trendBarColors = ["#1D4ED8", "#0EA5E9", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#14B8A6", "#F97316", "#6366F1"];
 
 // Ini perhitungan triwulan normal
 // const monthToTM = (): string => {
@@ -78,6 +94,40 @@ const filterDataByRange = (data: any[], start: Date, end: Date) => {
         return dateValue >= start && dateValue <= end;
     });
 };
+
+const averageIndicators = (data: any[]): DataAvr => {
+    const initial: DataAvr = {
+        kesesuaian_persyaratan: 0,
+        kesesuaian_pelayanan: 0,
+        kemudahan_prosedur: 0,
+        kecepatan_pelayanan: 0,
+        kewajaran_biaya: 0,
+        kemampuan_petugas: 0,
+        perilaku_petugas: 0,
+        kualitas_sarana: 0,
+        penanganan_pengaduan: 0,
+    };
+
+    if (!Array.isArray(data) || data.length === 0) return initial;
+
+    for (let i = 0; i < data.length; i++) {
+        initial.kecepatan_pelayanan += Number(data[i].kecepatan_pelayanan || 0)
+        initial.kemampuan_petugas += Number(data[i].kemampuan_petugas || 0)
+        initial.kemudahan_prosedur += Number(data[i].kemudahan_prosedur || 0)
+        initial.kesesuaian_pelayanan += Number(data[i].kesesuaian_pelayanan || 0)
+        initial.kesesuaian_persyaratan += Number(data[i].kesesuaian_persyaratan || 0)
+        initial.kewajaran_biaya += Number(data[i].kewajaran_biaya || 0)
+        initial.kualitas_sarana += Number(data[i].kualitas_sarana || 0)
+        initial.penanganan_pengaduan += Number(data[i].penanganan_pengaduan || 0)
+        initial.perilaku_petugas += Number(data[i].perilaku_petugas || 0)
+    }
+
+    indicatorKeys.forEach((key) => {
+        initial[key] = Number((initial[key] / data.length).toFixed(2));
+    });
+
+    return initial;
+}
 
 export default function RekapData() {
     const periodOptions: PeriodOption[] = [
@@ -217,9 +267,15 @@ export default function RekapData() {
     const [usiaChartData, setUsiaChartData] = useState<any>([])
     const [pekerjaanChartData, setPekerjaanChartData] = useState<any>([])
     const [pelayananChartData, setPelayananChartData] = useState<any>([])
+    const [trendData, setTrendData] = useState<any[]>([])
+    const [isTrendLoading, setIsTrendLoading] = useState(false)
 
     useEffect(() => {
         fetAllSurvey()
+    }, [])
+
+    useEffect(() => {
+        fetchTrendByPeriod()
     }, [])
 
     useEffect(() => {
@@ -244,6 +300,35 @@ export default function RekapData() {
             console.error(error)
         } finally {
             setIsLoading(false)
+        }
+    }
+
+    const fetchTrendByPeriod = async () => {
+        setIsTrendLoading(true)
+        try {
+            const headers = {
+                headers: {
+                    'Authorization': 'Basic c3VydmV5c2lzZGE6cGFzczJzaXNkYXN1cnZleQ=='
+                }
+            };
+
+            const responses = await Promise.all(
+                periodOptions.map(async (period) => {
+                    const res = await axios.get(`/api/survey?all=true&trismester=${period.tm}&year=${period.year}`, headers)
+                    const filtered = filterDataByRange(res.data?.data || [], period.start, period.end)
+                    const averages = averageIndicators(filtered)
+                    return {
+                        period: period.label,
+                        ...averages
+                    }
+                })
+            )
+
+            setTrendData(responses)
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsTrendLoading(false)
         }
     }
 
@@ -648,7 +733,7 @@ export default function RekapData() {
         let mChartData: any = []
 
         keys.forEach((k) => {
-            avr[k] = avr[k] / data.length;
+            avr[k] = data.length > 0 ? avr[k] / data.length : 0;
             avrTertimbang[k] = 1 / keys.length * avr[k]
             mikm += avrTertimbang[k]
 
@@ -697,6 +782,31 @@ export default function RekapData() {
 
     return (
         <div className="max-w-7xl mx-auto px-4 mt-8">
+            <div className="border rounded-lg p-4 mb-8 bg-white">
+                <div className="font-semibold text-lg">Tren Indikator SKM per Periode</div>
+                <div className="text-sm text-gray-600 mt-1">Periode: TW II 2024 s.d Semester II 2026</div>
+                {isTrendLoading ? (
+                    <div className="w-full p-8 text-center">Loading grafik tren...</div>
+                ) : (
+                    <div className="w-full overflow-x-auto mt-4">
+                        <div className="min-w-[1300px] h-[430px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
+                                    <YAxis domain={[0, 4]} fontSize={12} />
+                                    <Tooltip />
+                                    <Legend />
+                                    {indicatorKeys.map((key, index) => (
+                                        <Bar key={key} dataKey={key} name={indicatorLabels[key]} fill={trendBarColors[index % trendBarColors.length]} />
+                                    ))}
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+                )}
+            </div>
+
             <div className="flex justify-between">
                 <h1 className="font-semibold text-3xl text-center uppercase">Survey Kepuasan Masyarakat</h1>
 
