@@ -130,6 +130,7 @@ const averageIndicators = (data: any[]): DataAvr => {
 }
 
 export default function RekapData() {
+    const now = new Date();
     const periodOptions: PeriodOption[] = [
         {
             value: "2024-q2",
@@ -214,9 +215,10 @@ export default function RekapData() {
         },
     ];
 
-    const now = new Date();
+    const availablePeriodOptions = periodOptions.filter((option) => option.start <= now);
     const defaultPeriodValue =
-        periodOptions.find((option) => now >= option.start && now <= option.end)?.value ||
+        availablePeriodOptions.find((option) => now >= option.start && now <= option.end)?.value ||
+        availablePeriodOptions[0]?.value ||
         periodOptions[0].value;
 
     const [selectedPeriod, setSelectedPeriod] = useState(defaultPeriodValue);
@@ -286,7 +288,8 @@ export default function RekapData() {
     const fetAllSurvey = async () => {
         setIsLoading(true)
         try {
-            const period = periodOptions.find((option) => option.value === selectedPeriod) || periodOptions[0];
+            const period = availablePeriodOptions.find((option) => option.value === selectedPeriod) || availablePeriodOptions[0];
+            if (!period) return;
             const headers = {
                 headers: {
                     'Authorization': 'Basic c3VydmV5c2lzZGE6cGFzczJzaXNkYXN1cnZleQ=='
@@ -314,7 +317,7 @@ export default function RekapData() {
             };
 
             const responses = await Promise.all(
-                periodOptions.map(async (period) => {
+                availablePeriodOptions.map(async (period) => {
                     const res = await axios.get(`/api/survey?all=true&trismester=${period.tm}&year=${period.year}`, headers)
                     const filtered = filterDataByRange(res.data?.data || [], period.start, period.end)
                     const averages = averageIndicators(filtered)
@@ -867,7 +870,7 @@ export default function RekapData() {
                                     setSelectedPeriod(e.target.value)
                                 }}
                             >
-                                {periodOptions.map((option) => (
+                                {availablePeriodOptions.map((option) => (
                                     <option key={option.value} value={option.value}>
                                         {option.label}
                                     </option>
