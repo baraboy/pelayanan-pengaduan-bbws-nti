@@ -4,7 +4,7 @@ import SurveyChart from "../components/survey-chart"
 import axios from "../libs/axios"
 import { useEffect, useState } from "react"
 import UsiaChart from "../components/usia-chart"
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LabelList, Line, LineChart, ComposedChart } from "recharts"
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LabelList, Line, ComposedChart } from "recharts"
 
 type DataAvr = {
     kesesuaian_persyaratan: number,
