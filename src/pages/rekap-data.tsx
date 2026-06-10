@@ -4,7 +4,7 @@ import SurveyChart from "../components/survey-chart"
 import axios from "../libs/axios"
 import { useEffect, useState } from "react"
 import UsiaChart from "../components/usia-chart"
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LabelList, Line, LineChart } from "recharts"
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LabelList, Line, LineChart, ComposedChart } from "recharts"
 
 type DataAvr = {
     kesesuaian_persyaratan: number,
@@ -294,7 +294,7 @@ export default function RekapData() {
     const [isTrendLoading, setIsTrendLoading] = useState(false)
     const [selectedIndicators, setSelectedIndicators] = useState<Array<keyof DataAvr>>(indicatorKeys)
     const [trendViewMode, setTrendViewMode] = useState<TrendViewMode>('indicators')
-    const [ikmChartType, setIkmChartType] = useState<'bar' | 'line'>('bar')
+    const [ikmChartType, setIkmChartType] = useState<'bar' | 'line' | 'composed'>('composed')
 
     useEffect(() => {
         fetAllSurvey()
@@ -908,8 +908,8 @@ export default function RekapData() {
                     <div className="w-full overflow-x-auto mt-4">
                         <div className={trendViewMode === 'ikm' ? 'w-full h-[400px]' : 'min-w-[1300px] h-[430px]'}>
                             <ResponsiveContainer width="100%" height="100%">
-                                {trendViewMode === 'ikm' && ikmChartType === 'line' ? (
-                                    <LineChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
+                                {trendViewMode === 'ikm' ? (
+                                    <ComposedChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
                                         <YAxis domain={[0, 100]} fontSize={12} label={{ value: 'Nilai IKM', angle: -90, position: 'insideLeft' }} />
@@ -933,63 +933,10 @@ export default function RekapData() {
                                             }}
                                         />
                                         <Legend />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="ikm"
-                                            name="IKM"
-                                            stroke={IKM_COLOR}
-                                            strokeWidth={3}
-                                            dot={{ fill: IKM_COLOR, strokeWidth: 2, r: 6 }}
-                                            activeDot={{ r: 8 }}
-                                        >
-                                            <LabelList
-                                                dataKey="ikmLabel"
-                                                position="top"
-                                                style={{ fontSize: 12, fontWeight: 'bold' }}
-                                            />
-                                        </Line>
-                                    </LineChart>
-                                ) : (
-                                    <BarChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
-                                        <YAxis
-                                            domain={trendViewMode === 'ikm' ? [0, 100] : [0, 4]}
-                                            fontSize={12}
-                                            label={trendViewMode === 'ikm' ? { value: 'Nilai IKM', angle: -90, position: 'insideLeft' } : undefined}
-                                        />
-                                        <Tooltip
-                                            formatter={(value: any, name: string, props: any) => {
-                                                if (name === 'ikm') {
-                                                    const mutu = props.payload?.mutu;
-                                                    const mutuDesc = getMutuDescription(mutu);
-                                                    return [`${value} (Mutu ${mutu} - ${mutuDesc})`, 'IKM'];
-                                                }
-                                                return [value, indicatorLabels[name as keyof DataAvr] || name];
-                                            }}
-                                            content={({ active, payload }) => {
-                                                if (active && payload && payload.length) {
-                                                    const data = payload[0].payload;
-                                                    return (
-                                                        <div className="bg-white border rounded-lg shadow-lg p-3">
-                                                            <p className="font-semibold">{data.period}</p>
-                                                            <p className="text-blue-600">
-                                                                IKM: <span className="font-bold">{data.ikm}</span>
-                                                            </p>
-                                                            <p className="text-gray-600">
-                                                                Mutu: <span className="font-bold">{data.mutu}</span> ({getMutuDescription(data.mutu)})
-                                                            </p>
-                                                        </div>
-                                                    );
-                                                }
-                                                return null;
-                                            }}
-                                        />
-                                        <Legend />
-                                        {trendViewMode === 'ikm' ? (
+                                        {ikmChartType === 'bar' && (
                                             <Bar
                                                 dataKey="ikm"
-                                                name="IKM"
+                                                name="IKM (Batang)"
                                                 fill={IKM_COLOR}
                                                 barSize={60}
                                             >
@@ -999,11 +946,75 @@ export default function RekapData() {
                                                     style={{ fontSize: 12, fontWeight: 'bold' }}
                                                 />
                                             </Bar>
-                                        ) : (
-                                            selectedIndicators.map((key, index) => (
-                                                <Bar key={key} dataKey={key} name={indicatorLabels[key]} fill={trendBarColors[index % trendBarColors.length]} />
-                                            ))
                                         )}
+                                        {ikmChartType === 'line' && (
+                                            <Line
+                                                type="monotone"
+                                                dataKey="ikm"
+                                                name="IKM (Garis)"
+                                                stroke={IKM_COLOR}
+                                                strokeWidth={3}
+                                                dot={{ fill: IKM_COLOR, strokeWidth: 2, r: 6 }}
+                                                activeDot={{ r: 8 }}
+                                            >
+                                                <LabelList
+                                                    dataKey="ikmLabel"
+                                                    position="top"
+                                                    style={{ fontSize: 12, fontWeight: 'bold' }}
+                                                />
+                                            </Line>
+                                        )}
+                                        {ikmChartType === 'composed' && (
+                                            <>
+                                                <Bar
+                                                    dataKey="ikm"
+                                                    name="IKM"
+                                                    fill={IKM_COLOR}
+                                                    barSize={40}
+                                                    opacity={0.7}
+                                                />
+                                                <Line
+                                                    type="monotone"
+                                                    dataKey="ikm"
+                                                    name="Tren"
+                                                    stroke="#1F2937"
+                                                    strokeWidth={2}
+                                                    dot={{ fill: '#1F2937', strokeWidth: 2, r: 4 }}
+                                                    activeDot={{ r: 6 }}
+                                                />
+                                            </>
+                                        )}
+                                    </ComposedChart>
+                                ) : (
+                                    <BarChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
+                                        <YAxis
+                                            domain={[0, 4]}
+                                            fontSize={12}
+                                        />
+                                        <Tooltip
+                                            content={({ active, payload }) => {
+                                                if (active && payload && payload.length) {
+                                                    const data = payload[0].payload;
+                                                    return (
+                                                        <div className="bg-white border rounded-lg shadow-lg p-3">
+                                                            <p className="font-semibold">{data.period}</p>
+                                                            {selectedIndicators.map((key) => (
+                                                                <p key={key} className="text-gray-600">
+                                                                    {indicatorLabels[key]}: <span className="font-bold">{data[key]}</span>
+                                                                </p>
+                                                            ))}
+                                                        </div>
+                                                    );
+                                                }
+                                                return null;
+                                            }}
+                                        />
+                                        <Legend />
+                                        {selectedIndicators.map((key, index) => (
+                                            <Bar key={key} dataKey={key} name={indicatorLabels[key]} fill={trendBarColors[index % trendBarColors.length]} />
+                                        ))}
                                     </BarChart>
                                 )}
                             </ResponsiveContainer>
@@ -1040,6 +1051,20 @@ export default function RekapData() {
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
                                     </svg>
                                     Garis
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setIkmChartType('composed')}
+                                    className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 ${ikmChartType === 'composed'
+                                            ? 'bg-blue-600 text-white'
+                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                                        }`}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                                    </svg>
+                                    Gabungan
                                 </button>
                             </div>
                         </div>
