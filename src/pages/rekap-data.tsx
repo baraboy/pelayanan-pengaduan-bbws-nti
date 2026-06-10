@@ -33,6 +33,10 @@ const indicatorLabels: Record<keyof DataAvr, string> = {
 const indicatorKeys = Object.keys(indicatorLabels) as Array<keyof DataAvr>;
 const trendBarColors = ["#1D4ED8", "#0EA5E9", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#14B8A6", "#F97316", "#6366F1"];
 
+type TrendViewMode = 'indicators' | 'ikm';
+
+const IKM_COLOR = "#DC2626"; // Red color for IKM
+
 // Ini perhitungan triwulan normal
 // const monthToTM = (): string => {
 //     const d = new Date();
@@ -272,6 +276,7 @@ export default function RekapData() {
     const [trendData, setTrendData] = useState<any[]>([])
     const [isTrendLoading, setIsTrendLoading] = useState(false)
     const [selectedIndicators, setSelectedIndicators] = useState<Array<keyof DataAvr>>(indicatorKeys)
+    const [trendViewMode, setTrendViewMode] = useState<TrendViewMode>('indicators')
 
     useEffect(() => {
         fetAllSurvey()
@@ -321,9 +326,19 @@ export default function RekapData() {
                     const res = await axios.get(`/api/survey?all=true&trismester=${period.tm}&year=${period.year}`, headers)
                     const filtered = filterDataByRange(res.data?.data || [], period.start, period.end)
                     const averages = averageIndicators(filtered)
+
+                    // Calculate IKM for this period
+                    const keys = Object.keys(averages) as Array<keyof DataAvr>;
+                    let totalWeighted = 0;
+                    keys.forEach((key) => {
+                        totalWeighted += averages[key] / keys.length;
+                    });
+                    const ikm = totalWeighted * 25;
+
                     return {
                         period: period.label,
-                        ...averages
+                        ...averages,
+                        ikm: Number(ikm.toFixed(2))
                     }
                 })
             )
@@ -796,56 +811,117 @@ export default function RekapData() {
     return (
         <div className="max-w-7xl mx-auto px-4 mt-8">
             <div className="border rounded-lg p-4 mb-8 bg-white">
-                <div className="font-semibold text-lg">Tren Indikator SKM per Periode</div>
+                <div className="font-semibold text-lg">Tren SKM per Periode</div>
                 <div className="text-sm text-gray-600 mt-1">Periode: TW II 2024 s.d Semester II 2026</div>
+
+                {/* Toggle View Mode */}
                 <div className="mt-4 flex flex-wrap gap-2">
-                    <button
-                        type="button"
-                        className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-500"
-                        onClick={() => setSelectedIndicators(indicatorKeys)}
-                    >
-                        Pilih Semua
-                    </button>
-                    <button
-                        type="button"
-                        className="rounded-md border px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                        onClick={() => setSelectedIndicators([])}
-                    >
-                        Reset
-                    </button>
+                    <div className="inline-flex rounded-md shadow-sm" role="group">
+                        <button
+                            type="button"
+                            className={`px-4 py-2 text-sm font-medium rounded-l-lg ${trendViewMode === 'indicators'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                                }`}
+                            onClick={() => setTrendViewMode('indicators')}
+                        >
+                            Indikator
+                        </button>
+                        <button
+                            type="button"
+                            className={`px-4 py-2 text-sm font-medium rounded-r-lg ${trendViewMode === 'ikm'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 border-l-0'
+                                }`}
+                            onClick={() => setTrendViewMode('ikm')}
+                        >
+                            IKM
+                        </button>
+                    </div>
                 </div>
-                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                    {indicatorKeys.map((key) => (
-                        <label key={key} className="inline-flex items-center gap-2 text-sm text-gray-700">
-                            <input
-                                type="checkbox"
-                                checked={selectedIndicators.includes(key)}
-                                onChange={() => toggleIndicator(key)}
-                                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                            />
-                            {indicatorLabels[key]}
-                        </label>
-                    ))}
-                </div>
+
+                {trendViewMode === 'indicators' && (
+                    <>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                            <button
+                                type="button"
+                                className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-500"
+                                onClick={() => setSelectedIndicators(indicatorKeys)}
+                            >
+                                Pilih Semua
+                            </button>
+                            <button
+                                type="button"
+                                className="rounded-md border px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                                onClick={() => setSelectedIndicators([])}
+                            >
+                                Reset
+                            </button>
+                        </div>
+                        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                            {indicatorKeys.map((key) => (
+                                <label key={key} className="inline-flex items-center gap-2 text-sm text-gray-700">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedIndicators.includes(key)}
+                                        onChange={() => toggleIndicator(key)}
+                                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    {indicatorLabels[key]}
+                                </label>
+                            ))}
+                        </div>
+                    </>
+                )}
+
                 {isTrendLoading ? (
                     <div className="w-full p-8 text-center">Loading grafik tren...</div>
-                ) : selectedIndicators.length === 0 ? (
+                ) : trendViewMode === 'indicators' && selectedIndicators.length === 0 ? (
                     <div className="w-full p-8 text-center text-gray-600">Belum ada indikator dipilih. Klik `Pilih Semua` atau centang indikator yang ingin ditampilkan.</div>
                 ) : (
                     <div className="w-full overflow-x-auto mt-4">
-                        <div className="min-w-[1300px] h-[430px]">
+                        <div className={trendViewMode === 'ikm' ? 'w-full h-[400px]' : 'min-w-[1300px] h-[430px]'}>
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
-                                    <YAxis domain={[0, 4]} fontSize={12} />
-                                    <Tooltip />
+                                    <YAxis
+                                        domain={trendViewMode === 'ikm' ? [0, 100] : [0, 4]}
+                                        fontSize={12}
+                                        label={trendViewMode === 'ikm' ? { value: 'Nilai IKM', angle: -90, position: 'insideLeft' } : undefined}
+                                    />
+                                    <Tooltip
+                                        formatter={(value: any, name: string) => {
+                                            if (name === 'ikm') {
+                                                return [value, 'IKM'];
+                                            }
+                                            return [value, indicatorLabels[name as keyof DataAvr] || name];
+                                        }}
+                                    />
                                     <Legend />
-                                    {selectedIndicators.map((key, index) => (
-                                        <Bar key={key} dataKey={key} name={indicatorLabels[key]} fill={trendBarColors[index % trendBarColors.length]} />
-                                    ))}
+                                    {trendViewMode === 'ikm' ? (
+                                        <Bar
+                                            dataKey="ikm"
+                                            name="IKM"
+                                            fill={IKM_COLOR}
+                                            barSize={60}
+                                        />
+                                    ) : (
+                                        selectedIndicators.map((key, index) => (
+                                            <Bar key={key} dataKey={key} name={indicatorLabels[key]} fill={trendBarColors[index % trendBarColors.length]} />
+                                        ))
+                                    )}
                                 </BarChart>
                             </ResponsiveContainer>
+                        </div>
+                    </div>
+                )}
+
+                {trendViewMode === 'ikm' && (
+                    <div className="mt-4 p-4 bg-red-50 rounded-lg border border-red-200">
+                        <div className="text-sm text-red-800">
+                            <span className="font-semibold">Catatan:</span> IKM (Indeks Kepuasan Masyarakat) = Nilai Rata-rata Tertimbang × 25.
+                            Nilai IKM berkisar antara 0-100 dengan mutu pelayanan A (81.26-100), B (62.51-81.25), C (43.76-62.50), D (0-43.75).
                         </div>
                     </div>
                 )}
