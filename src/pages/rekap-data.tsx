@@ -358,7 +358,8 @@ export default function RekapData() {
                         period: period.label,
                         ...averages,
                         ikm: Number(ikm.toFixed(2)),
-                        mutu: mutu
+                        mutu: mutu,
+                        ikmLabel: `${Number(ikm.toFixed(2))} (${mutu})`
                     }
                 })
             )
@@ -913,10 +914,22 @@ export default function RekapData() {
                                         <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
                                         <YAxis domain={[0, 100]} fontSize={12} label={{ value: 'Nilai IKM', angle: -90, position: 'insideLeft' }} />
                                         <Tooltip
-                                            formatter={(value: any, _name: string, props: any) => {
-                                                const mutu = props.payload?.mutu;
-                                                const mutuDesc = getMutuDescription(mutu);
-                                                return [`${value} (Mutu ${mutu} - ${mutuDesc})`, 'IKM'];
+                                            content={({ active, payload }) => {
+                                                if (active && payload && payload.length) {
+                                                    const data = payload[0].payload;
+                                                    return (
+                                                        <div className="bg-white border rounded-lg shadow-lg p-3">
+                                                            <p className="font-semibold">{data.period}</p>
+                                                            <p className="text-blue-600">
+                                                                IKM: <span className="font-bold">{data.ikm}</span>
+                                                            </p>
+                                                            <p className="text-gray-600">
+                                                                Mutu: <span className="font-bold">{data.mutu}</span> ({getMutuDescription(data.mutu)})
+                                                            </p>
+                                                        </div>
+                                                    );
+                                                }
+                                                return null;
                                             }}
                                         />
                                         <Legend />
@@ -930,9 +943,8 @@ export default function RekapData() {
                                             activeDot={{ r: 8 }}
                                         >
                                             <LabelList
-                                                dataKey="ikm"
+                                                dataKey="ikmLabel"
                                                 position="top"
-                                                formatter={(value: number) => `${value}`}
                                                 style={{ fontSize: 12, fontWeight: 'bold' }}
                                             />
                                         </Line>
@@ -955,6 +967,23 @@ export default function RekapData() {
                                                 }
                                                 return [value, indicatorLabels[name as keyof DataAvr] || name];
                                             }}
+                                            content={({ active, payload }) => {
+                                                if (active && payload && payload.length) {
+                                                    const data = payload[0].payload;
+                                                    return (
+                                                        <div className="bg-white border rounded-lg shadow-lg p-3">
+                                                            <p className="font-semibold">{data.period}</p>
+                                                            <p className="text-blue-600">
+                                                                IKM: <span className="font-bold">{data.ikm}</span>
+                                                            </p>
+                                                            <p className="text-gray-600">
+                                                                Mutu: <span className="font-bold">{data.mutu}</span> ({getMutuDescription(data.mutu)})
+                                                            </p>
+                                                        </div>
+                                                    );
+                                                }
+                                                return null;
+                                            }}
                                         />
                                         <Legend />
                                         {trendViewMode === 'ikm' ? (
@@ -965,12 +994,8 @@ export default function RekapData() {
                                                 barSize={60}
                                             >
                                                 <LabelList
-                                                    dataKey="ikm"
+                                                    dataKey="ikmLabel"
                                                     position="top"
-                                                    formatter={(value: number, entry: any) => {
-                                                        const mutu = entry?.payload?.mutu;
-                                                        return `${value} (${mutu})`;
-                                                    }}
                                                     style={{ fontSize: 12, fontWeight: 'bold' }}
                                                 />
                                             </Bar>
