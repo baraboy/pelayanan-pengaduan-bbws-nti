@@ -4,7 +4,7 @@ import SurveyChart from "../components/survey-chart"
 import axios from "../libs/axios"
 import { useEffect, useState } from "react"
 import UsiaChart from "../components/usia-chart"
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LabelList, Line, LineChart } from "recharts"
 
 type DataAvr = {
     kesesuaian_persyaratan: number,
@@ -36,6 +36,23 @@ const trendBarColors = ["#1D4ED8", "#0EA5E9", "#10B981", "#F59E0B", "#EF4444", "
 type TrendViewMode = 'indicators' | 'ikm';
 
 const IKM_COLOR = "#DC2626"; // Red color for IKM
+
+const getMutuLabel = (ikm: number): string => {
+    if (ikm >= 81.26) return 'A';
+    if (ikm >= 62.51) return 'B';
+    if (ikm >= 43.76) return 'C';
+    return 'D';
+};
+
+const getMutuDescription = (mutu: string): string => {
+    switch (mutu) {
+        case 'A': return 'Sangat Puas';
+        case 'B': return 'Puas';
+        case 'C': return 'Kurang Puas';
+        case 'D': return 'Tidak Puas';
+        default: return '';
+    }
+};
 
 // Ini perhitungan triwulan normal
 // const monthToTM = (): string => {
@@ -277,6 +294,7 @@ export default function RekapData() {
     const [isTrendLoading, setIsTrendLoading] = useState(false)
     const [selectedIndicators, setSelectedIndicators] = useState<Array<keyof DataAvr>>(indicatorKeys)
     const [trendViewMode, setTrendViewMode] = useState<TrendViewMode>('indicators')
+    const [ikmChartType, setIkmChartType] = useState<'bar' | 'line'>('bar')
 
     useEffect(() => {
         fetAllSurvey()
@@ -334,11 +352,13 @@ export default function RekapData() {
                         totalWeighted += averages[key] / keys.length;
                     });
                     const ikm = totalWeighted * 25;
+                    const mutu = getMutuLabel(ikm);
 
                     return {
                         period: period.label,
                         ...averages,
-                        ikm: Number(ikm.toFixed(2))
+                        ikm: Number(ikm.toFixed(2)),
+                        mutu: mutu
                     }
                 })
             )
@@ -887,49 +907,125 @@ export default function RekapData() {
                     <div className="w-full overflow-x-auto mt-4">
                         <div className={trendViewMode === 'ikm' ? 'w-full h-[400px]' : 'min-w-[1300px] h-[430px]'}>
                             <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
-                                    <YAxis
-                                        domain={trendViewMode === 'ikm' ? [0, 100] : [0, 4]}
-                                        fontSize={12}
-                                        label={trendViewMode === 'ikm' ? { value: 'Nilai IKM', angle: -90, position: 'insideLeft' } : undefined}
-                                    />
-                                    <Tooltip
-                                        formatter={(value: any, name: string) => {
-                                            if (name === 'ikm') {
-                                                return [value, 'IKM'];
-                                            }
-                                            return [value, indicatorLabels[name as keyof DataAvr] || name];
-                                        }}
-                                    />
-                                    <Legend />
-                                    {trendViewMode === 'ikm' ? (
-                                        <Bar
+                                {trendViewMode === 'ikm' && ikmChartType === 'line' ? (
+                                    <LineChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
+                                        <YAxis domain={[0, 100]} fontSize={12} label={{ value: 'Nilai IKM', angle: -90, position: 'insideLeft' }} />
+                                        <Tooltip
+                                            formatter={(value: any, name: string, props: any) => {
+                                                const mutu = props.payload?.mutu;
+                                                const mutuDesc = getMutuDescription(mutu);
+                                                return [`${value} (Mutu ${mutu} - ${mutuDesc})`, 'IKM'];
+                                            }}
+                                        />
+                                        <Legend />
+                                        <Line
+                                            type="monotone"
                                             dataKey="ikm"
                                             name="IKM"
-                                            fill={IKM_COLOR}
-                                            barSize={60}
+                                            stroke={IKM_COLOR}
+                                            strokeWidth={3}
+                                            dot={{ fill: IKM_COLOR, strokeWidth: 2, r: 6 }}
+                                            activeDot={{ r: 8 }}
+                                        >
+                                            <LabelList
+                                                dataKey="ikm"
+                                                position="top"
+                                                formatter={(value: number) => `${value}`}
+                                                style={{ fontSize: 12, fontWeight: 'bold' }}
+                                            />
+                                        </Line>
+                                    </LineChart>
+                                ) : (
+                                    <BarChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
+                                        <YAxis
+                                            domain={trendViewMode === 'ikm' ? [0, 100] : [0, 4]}
+                                            fontSize={12}
+                                            label={trendViewMode === 'ikm' ? { value: 'Nilai IKM', angle: -90, position: 'insideLeft' } : undefined}
                                         />
-                                    ) : (
-                                        selectedIndicators.map((key, index) => (
-                                            <Bar key={key} dataKey={key} name={indicatorLabels[key]} fill={trendBarColors[index % trendBarColors.length]} />
-                                        ))
-                                    )}
-                                </BarChart>
+                                        <Tooltip
+                                            formatter={(value: any, name: string, props: any) => {
+                                                if (name === 'ikm') {
+                                                    const mutu = props.payload?.mutu;
+                                                    const mutuDesc = getMutuDescription(mutu);
+                                                    return [`${value} (Mutu ${mutu} - ${mutuDesc})`, 'IKM'];
+                                                }
+                                                return [value, indicatorLabels[name as keyof DataAvr] || name];
+                                            }}
+                                        />
+                                        <Legend />
+                                        {trendViewMode === 'ikm' ? (
+                                            <Bar
+                                                dataKey="ikm"
+                                                name="IKM"
+                                                fill={IKM_COLOR}
+                                                barSize={60}
+                                            >
+                                                <LabelList
+                                                    dataKey="ikm"
+                                                    position="top"
+                                                    formatter={(value: number, entry: any) => {
+                                                        const mutu = entry?.payload?.mutu;
+                                                        return `${value} (${mutu})`;
+                                                    }}
+                                                    style={{ fontSize: 12, fontWeight: 'bold' }}
+                                                />
+                                            </Bar>
+                                        ) : (
+                                            selectedIndicators.map((key, index) => (
+                                                <Bar key={key} dataKey={key} name={indicatorLabels[key]} fill={trendBarColors[index % trendBarColors.length]} />
+                                            ))
+                                        )}
+                                    </BarChart>
+                                )}
                             </ResponsiveContainer>
                         </div>
                     </div>
                 )}
 
                 {trendViewMode === 'ikm' && (
-                    <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <div className="text-sm text-blue-800">
-                            <span className="font-semibold">IKM (Indeks Kepuasan Masyarakat)</span> adalah nilai rata-rata tertimbang dari 9 indikator × 25.
-                            <br />
-                            Mutu pelayanan: <span className="font-semibold">A</span> (81.26-100), <span className="font-semibold">B</span> (62.51-81.25), <span className="font-semibold">C</span> (43.76-62.50), <span className="font-semibold">D</span> (0-43.75)
+                    <>
+                        <div className="mt-4 flex items-center justify-between">
+                            <div className="flex gap-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setIkmChartType('bar')}
+                                    className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 ${ikmChartType === 'bar'
+                                            ? 'bg-blue-600 text-white'
+                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                                        }`}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                    Batang
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setIkmChartType('line')}
+                                    className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 ${ikmChartType === 'line'
+                                            ? 'bg-blue-600 text-white'
+                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                                        }`}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                                    </svg>
+                                    Garis
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                            <div className="text-sm text-blue-800">
+                                <span className="font-semibold">IKM (Indeks Kepuasan Masyarakat)</span> adalah nilai rata-rata tertimbang dari 9 indikator × 25.
+                                <br />
+                                Mutu pelayanan: <span className="font-semibold">A</span> (81.26-100), <span className="font-semibold">B</span> (62.51-81.25), <span className="font-semibold">C</span> (43.76-62.50), <span className="font-semibold">D</span> (0-43.75)
+                            </div>
+                        </div>
+                    </>
                 )}
             </div>
 
