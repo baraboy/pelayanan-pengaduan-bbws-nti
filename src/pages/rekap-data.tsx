@@ -811,7 +811,7 @@ export default function RekapData() {
     return (
         <div className="max-w-7xl mx-auto px-4 mt-8">
             <div className="border rounded-lg p-4 mb-8 bg-white">
-                <div className="font-semibold text-lg">Tren SKM per Periode</div>
+                <div className="font-semibold text-lg">Tren Kepuasan Masyarakat</div>
                 <div className="text-sm text-gray-600 mt-1">Periode: TW II 2024 s.d Semester II 2026</div>
 
                 {/* Toggle View Mode */}
@@ -825,7 +825,7 @@ export default function RekapData() {
                                 }`}
                             onClick={() => setTrendViewMode('indicators')}
                         >
-                            Indikator
+                            Rincian
                         </button>
                         <button
                             type="button"
@@ -835,9 +835,14 @@ export default function RekapData() {
                                 }`}
                             onClick={() => setTrendViewMode('ikm')}
                         >
-                            IKM
+                            Kesimpulan
                         </button>
                     </div>
+                    <span className="text-sm text-gray-500 self-center ml-2">
+                        {trendViewMode === 'indicators'
+                            ? '9 indikator penilaian yang menyusun nilai IKM'
+                            : 'Nilai IKM menggambarkan kepuasan masyarakat secara keseluruhan'}
+                    </span>
                 </div>
 
                 {trendViewMode === 'indicators' && (
@@ -918,10 +923,11 @@ export default function RekapData() {
                 )}
 
                 {trendViewMode === 'ikm' && (
-                    <div className="mt-4 p-4 bg-red-50 rounded-lg border border-red-200">
-                        <div className="text-sm text-red-800">
-                            <span className="font-semibold">Catatan:</span> IKM (Indeks Kepuasan Masyarakat) = Nilai Rata-rata Tertimbang × 25.
-                            Nilai IKM berkisar antara 0-100 dengan mutu pelayanan A (81.26-100), B (62.51-81.25), C (43.76-62.50), D (0-43.75).
+                    <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <div className="text-sm text-blue-800">
+                            <span className="font-semibold">IKM (Indeks Kepuasan Masyarakat)</span> adalah nilai rata-rata tertimbang dari 9 indikator × 25.
+                            <br />
+                            Mutu pelayanan: <span className="font-semibold">A</span> (81.26-100), <span className="font-semibold">B</span> (62.51-81.25), <span className="font-semibold">C</span> (43.76-62.50), <span className="font-semibold">D</span> (0-43.75)
                         </div>
                     </div>
                 )}
