@@ -913,7 +913,7 @@ export default function RekapData() {
                                         <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
                                         <YAxis domain={[0, 100]} fontSize={12} label={{ value: 'Nilai IKM', angle: -90, position: 'insideLeft' }} />
                                         <Tooltip
-                                            formatter={(value: any, name: string, props: any) => {
+                                            formatter={(value: any, _name: string, props: any) => {
                                                 const mutu = props.payload?.mutu;
                                                 const mutuDesc = getMutuDescription(mutu);
                                                 return [`${value} (Mutu ${mutu} - ${mutuDesc})`, 'IKM'];
