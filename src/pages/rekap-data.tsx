@@ -4,7 +4,7 @@ import SurveyChart from "../components/survey-chart"
 import axios from "../libs/axios"
 import { useEffect, useState } from "react"
 import UsiaChart from "../components/usia-chart"
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LabelList, Line, ComposedChart } from "recharts"
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LabelList, Line, LineChart, ComposedChart } from "recharts"
 
 type DataAvr = {
     kesesuaian_persyaratan: number,
@@ -294,7 +294,7 @@ export default function RekapData() {
     const [isTrendLoading, setIsTrendLoading] = useState(false)
     const [selectedIndicators, setSelectedIndicators] = useState<Array<keyof DataAvr>>(indicatorKeys)
     const [trendViewMode, setTrendViewMode] = useState<TrendViewMode>('indicators')
-    const [ikmChartType, setIkmChartType] = useState<'bar' | 'line' | 'composed'>('composed')
+    const [chartType, setChartType] = useState<'bar' | 'line' | 'composed'>('bar')
 
     useEffect(() => {
         fetAllSurvey()
@@ -836,34 +836,80 @@ export default function RekapData() {
                 <div className="text-sm text-gray-600 mt-1">Periode: TW II 2024 s.d Semester II 2026</div>
 
                 {/* Toggle View Mode */}
-                <div className="mt-4 flex flex-wrap gap-2">
-                    <div className="inline-flex rounded-md shadow-sm" role="group">
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+                    <div className="flex flex-wrap items-center gap-4">
+                        <div className="inline-flex rounded-md shadow-sm" role="group">
+                            <button
+                                type="button"
+                                className={`px-4 py-2 text-sm font-medium rounded-l-lg ${trendViewMode === 'indicators'
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                                    }`}
+                                onClick={() => setTrendViewMode('indicators')}
+                            >
+                                Rincian
+                            </button>
+                            <button
+                                type="button"
+                                className={`px-4 py-2 text-sm font-medium rounded-r-lg ${trendViewMode === 'ikm'
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 border-l-0'
+                                    }`}
+                                onClick={() => setTrendViewMode('ikm')}
+                            >
+                                Kesimpulan
+                            </button>
+                        </div>
+                        <span className="text-sm text-gray-500">
+                            {trendViewMode === 'indicators'
+                                ? '9 indikator penilaian yang menyusun nilai IKM'
+                                : 'Nilai IKM menggambarkan kepuasan masyarakat secara keseluruhan'}
+                        </span>
+                    </div>
+
+                    {/* Chart Type Selector */}
+                    <div className="flex gap-1">
                         <button
                             type="button"
-                            className={`px-4 py-2 text-sm font-medium rounded-l-lg ${trendViewMode === 'indicators'
+                            onClick={() => setChartType('bar')}
+                            className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 ${chartType === 'bar'
                                     ? 'bg-blue-600 text-white'
-                                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                                 }`}
-                            onClick={() => setTrendViewMode('indicators')}
+                            title="Bar Chart"
                         >
-                            Rincian
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
                         </button>
                         <button
                             type="button"
-                            className={`px-4 py-2 text-sm font-medium rounded-r-lg ${trendViewMode === 'ikm'
+                            onClick={() => setChartType('line')}
+                            className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 ${chartType === 'line'
                                     ? 'bg-blue-600 text-white'
-                                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 border-l-0'
+                                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                                 }`}
-                            onClick={() => setTrendViewMode('ikm')}
+                            title="Line Chart"
                         >
-                            Kesimpulan
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                            </svg>
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setChartType('composed')}
+                            className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 ${chartType === 'composed'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                                }`}
+                            title="Gabungan (Bar + Line)"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                            </svg>
                         </button>
                     </div>
-                    <span className="text-sm text-gray-500 self-center ml-2">
-                        {trendViewMode === 'indicators'
-                            ? '9 indikator penilaian yang menyusun nilai IKM'
-                            : 'Nilai IKM menggambarkan kepuasan masyarakat secara keseluruhan'}
-                    </span>
                 </div>
 
                 {trendViewMode === 'indicators' && (
@@ -933,10 +979,10 @@ export default function RekapData() {
                                             }}
                                         />
                                         <Legend />
-                                        {ikmChartType === 'bar' && (
+                                        {chartType === 'bar' && (
                                             <Bar
                                                 dataKey="ikm"
-                                                name="IKM (Batang)"
+                                                name="IKM"
                                                 fill={IKM_COLOR}
                                                 barSize={60}
                                             >
@@ -947,11 +993,11 @@ export default function RekapData() {
                                                 />
                                             </Bar>
                                         )}
-                                        {ikmChartType === 'line' && (
+                                        {chartType === 'line' && (
                                             <Line
                                                 type="monotone"
                                                 dataKey="ikm"
-                                                name="IKM (Garis)"
+                                                name="IKM"
                                                 stroke={IKM_COLOR}
                                                 strokeWidth={3}
                                                 dot={{ fill: IKM_COLOR, strokeWidth: 2, r: 6 }}
@@ -964,7 +1010,7 @@ export default function RekapData() {
                                                 />
                                             </Line>
                                         )}
-                                        {ikmChartType === 'composed' && (
+                                        {chartType === 'composed' && (
                                             <>
                                                 <Bar
                                                     dataKey="ikm"
@@ -986,11 +1032,96 @@ export default function RekapData() {
                                         )}
                                     </ComposedChart>
                                 ) : (
-                                    <BarChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
-                                        <YAxis
-                                            domain={[0, 4]}
+                                    chartType === 'line' ? (
+                                        <LineChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
+                                            <YAxis domain={[0, 4]} fontSize={12} />
+                                            <Tooltip
+                                                content={({ active, payload }) => {
+                                                    if (active && payload && payload.length) {
+                                                        const data = payload[0].payload;
+                                                        return (
+                                                            <div className="bg-white border rounded-lg shadow-lg p-3">
+                                                                <p className="font-semibold">{data.period}</p>
+                                                                {selectedIndicators.map((key) => (
+                                                                    <p key={key} className="text-gray-600">
+                                                                        {indicatorLabels[key]}: <span className="font-bold">{data[key]}</span>
+                                                                    </p>
+                                                                ))}
+                                                            </div>
+                                                        );
+                                                    }
+                                                    return null;
+                                                }}
+                                            />
+                                            <Legend />
+                                            {selectedIndicators.map((key, index) => (
+                                                <Line
+                                                    key={key}
+                                                    type="monotone"
+                                                    dataKey={key}
+                                                    name={indicatorLabels[key]}
+                                                    stroke={trendBarColors[index % trendBarColors.length]}
+                                                    strokeWidth={2}
+                                                    dot={{ r: 4 }}
+                                                    activeDot={{ r: 6 }}
+                                                />
+                                            ))}
+                                        </LineChart>
+                                    ) : chartType === 'composed' ? (
+                                        <ComposedChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
+                                            <YAxis domain={[0, 4]} fontSize={12} />
+                                            <Tooltip
+                                                content={({ active, payload }) => {
+                                                    if (active && payload && payload.length) {
+                                                        const data = payload[0].payload;
+                                                        return (
+                                                            <div className="bg-white border rounded-lg shadow-lg p-3">
+                                                                <p className="font-semibold">{data.period}</p>
+                                                                {selectedIndicators.map((key) => (
+                                                                    <p key={key} className="text-gray-600">
+                                                                        {indicatorLabels[key]}: <span className="font-bold">{data[key]}</span>
+                                                                    </p>
+                                                                ))}
+                                                            </div>
+                                                        );
+                                                    }
+                                                    return null;
+                                                }}
+                                            />
+                                            <Legend />
+                                            {selectedIndicators.map((key, index) => (
+                                                <Bar
+                                                    key={`bar-${key}`}
+                                                    dataKey={key}
+                                                    name={indicatorLabels[key]}
+                                                    fill={trendBarColors[index % trendBarColors.length]}
+                                                    barSize={30}
+                                                    opacity={0.7}
+                                                />
+                                            ))}
+                                            {selectedIndicators.map((key, index) => (
+                                                <Line
+                                                    key={`line-${key}`}
+                                                    type="monotone"
+                                                    dataKey={key}
+                                                    name={`${indicatorLabels[key]} (Tren)`}
+                                                    stroke={trendBarColors[index % trendBarColors.length]}
+                                                    strokeWidth={2}
+                                                    dot={{ r: 3 }}
+                                                    activeDot={{ r: 5 }}
+                                                />
+                                            ))}
+                                        </ComposedChart>
+                                    ) : (
+                                        <BarChart data={trendData} margin={{ top: 12, right: 20, left: 0, bottom: 80 }}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
+                                            <YAxis
+                                                domain={[0, 4]}
                                             fontSize={12}
                                         />
                                         <Tooltip
@@ -1023,59 +1154,13 @@ export default function RekapData() {
                 )}
 
                 {trendViewMode === 'ikm' && (
-                    <>
-                        <div className="mt-4 flex items-center justify-between">
-                            <div className="flex gap-2">
-                                <button
-                                    type="button"
-                                    onClick={() => setIkmChartType('bar')}
-                                    className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 ${ikmChartType === 'bar'
-                                            ? 'bg-blue-600 text-white'
-                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                                        }`}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                    </svg>
-                                    Batang
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setIkmChartType('line')}
-                                    className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 ${ikmChartType === 'line'
-                                            ? 'bg-blue-600 text-white'
-                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                                        }`}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                                    </svg>
-                                    Garis
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setIkmChartType('composed')}
-                                    className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 ${ikmChartType === 'composed'
-                                            ? 'bg-blue-600 text-white'
-                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                                        }`}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-                                    </svg>
-                                    Gabungan
-                                </button>
-                            </div>
+                    <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <div className="text-sm text-blue-800">
+                            <span className="font-semibold">IKM (Indeks Kepuasan Masyarakat)</span> adalah nilai rata-rata tertimbang dari 9 indikator × 25.
+                            <br />
+                            Mutu pelayanan: <span className="font-semibold">A</span> (81.26-100), <span className="font-semibold">B</span> (62.51-81.25), <span className="font-semibold">C</span> (43.76-62.50), <span className="font-semibold">D</span> (0-43.75)
                         </div>
-                        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                            <div className="text-sm text-blue-800">
-                                <span className="font-semibold">IKM (Indeks Kepuasan Masyarakat)</span> adalah nilai rata-rata tertimbang dari 9 indikator × 25.
-                                <br />
-                                Mutu pelayanan: <span className="font-semibold">A</span> (81.26-100), <span className="font-semibold">B</span> (62.51-81.25), <span className="font-semibold">C</span> (43.76-62.50), <span className="font-semibold">D</span> (0-43.75)
-                            </div>
-                        </div>
-                    </>
+                    </div>
                 )}
             </div>
 
