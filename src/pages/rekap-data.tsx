@@ -1122,31 +1122,32 @@ export default function RekapData() {
                                             <XAxis dataKey="period" interval={0} angle={-20} textAnchor="end" height={90} fontSize={12} />
                                             <YAxis
                                                 domain={[0, 4]}
-                                            fontSize={12}
-                                        />
-                                        <Tooltip
-                                            content={({ active, payload }) => {
-                                                if (active && payload && payload.length) {
-                                                    const data = payload[0].payload;
-                                                    return (
-                                                        <div className="bg-white border rounded-lg shadow-lg p-3">
-                                                            <p className="font-semibold">{data.period}</p>
-                                                            {selectedIndicators.map((key) => (
-                                                                <p key={key} className="text-gray-600">
-                                                                    {indicatorLabels[key]}: <span className="font-bold">{data[key]}</span>
-                                                                </p>
-                                                            ))}
-                                                        </div>
-                                                    );
-                                                }
-                                                return null;
-                                            }}
-                                        />
-                                        <Legend />
-                                        {selectedIndicators.map((key, index) => (
-                                            <Bar key={key} dataKey={key} name={indicatorLabels[key]} fill={trendBarColors[index % trendBarColors.length]} />
-                                        ))}
-                                    </BarChart>
+                                                fontSize={12}
+                                            />
+                                            <Tooltip
+                                                content={({ active, payload }) => {
+                                                    if (active && payload && payload.length) {
+                                                        const data = payload[0].payload;
+                                                        return (
+                                                            <div className="bg-white border rounded-lg shadow-lg p-3">
+                                                                <p className="font-semibold">{data.period}</p>
+                                                                {selectedIndicators.map((key) => (
+                                                                    <p key={key} className="text-gray-600">
+                                                                        {indicatorLabels[key]}: <span className="font-bold">{data[key]}</span>
+                                                                    </p>
+                                                                ))}
+                                                            </div>
+                                                        );
+                                                    }
+                                                    return null;
+                                                }}
+                                            />
+                                            <Legend />
+                                            {selectedIndicators.map((key, index) => (
+                                                <Bar key={key} dataKey={key} name={indicatorLabels[key]} fill={trendBarColors[index % trendBarColors.length]} />
+                                            ))}
+                                        </BarChart>
+                                    )
                                 )}
                             </ResponsiveContainer>
                         </div>
