@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const dokumentasiImages = [
   { src: "/dokumentasi-kegiatan/1.webp", alt: "Dokumentasi 1" },
@@ -16,12 +16,49 @@ const dokumentasiImages = [
 
 export default function Beranda() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [activeDot, setActiveDot] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const visibleImages = dokumentasiImages.slice(
-    activeDot * 3,
-    activeDot * 3 + 3,
-  );
+  // Auto scroll dokumentasi images
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    let scrollInterval: ReturnType<typeof setInterval>;
+    let scrollDirection = 1;
+
+    const startAutoScroll = () => {
+      scrollInterval = setInterval(() => {
+        if (!scrollContainer) return;
+
+        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        const currentScroll = scrollContainer.scrollLeft;
+
+        // Change direction when reaching edges
+        if (currentScroll >= maxScroll - 10) {
+          scrollDirection = -1;
+        } else if (currentScroll <= 0) {
+          scrollDirection = 1;
+        }
+
+        scrollContainer.scrollLeft += scrollDirection * 1;
+      }, 30);
+    };
+
+    startAutoScroll();
+
+    // Pause on hover
+    const pauseScroll = () => clearInterval(scrollInterval);
+    const resumeScroll = () => startAutoScroll();
+
+    scrollContainer.addEventListener("mouseenter", pauseScroll);
+    scrollContainer.addEventListener("mouseleave", resumeScroll);
+
+    return () => {
+      clearInterval(scrollInterval);
+      scrollContainer.removeEventListener("mouseenter", pauseScroll);
+      scrollContainer.removeEventListener("mouseleave", resumeScroll);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen font-sans bg-[#f9f9f9]">
@@ -50,65 +87,49 @@ export default function Beranda() {
 
           {/* Right: Certificate Image */}
           <div className="flex justify-center md:justify-end">
-            <a
-              href="/sertifikat/SAB 00174 (1).pdf"
-              target="_blank"
-              className="block"
-            >
-              <div className="bg-white rounded-lg shadow-xl overflow-hidden">
-                <img
-                  src="/sertifikat-preview.png"
-                  alt="Sertifikat Gratifikasi"
-                  className="w-full max-w-[280px] md:max-w-[400px] h-auto object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                />
-                <div className="p-3 bg-blue-50">
-                  <p className="text-sm font-medium text-blue-800 text-center">
-                    Klik untuk melihat sertifikat
-                  </p>
-                </div>
-              </div>
-            </a>
+            <img
+              src="/sertifikat/Sertifikat ISO 370001.jpg"
+              alt="Sertifikat ISO 37001"
+              className="w-full max-w-[280px] md:max-w-[400px] h-auto rounded-lg shadow-xl cursor-pointer hover:opacity-90 transition-opacity"
+              onClick={() => setSelectedImage("/sertifikat/Sertifikat ISO 370001.jpg")}
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
           </div>
         </div>
       </section>
 
       {/* Kegiatan Section */}
-      <section className="bg-white text-[#002d62] py-12 px-6 md:px-12">
+      <section className="bg-white text-[#002d62] py-12 px-6 md:px-12 overflow-hidden">
         <div className="text-center mb-8">
           <h2 className="text-2xl md:text-4xl font-extrabold mb-6 text-black">
             Kegiatan
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
-          {visibleImages.map((img, index) => (
+        <div
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          {dokumentasiImages.map((img, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col items-center cursor-pointer hover:opacity-90 transition-opacity"
+              className="flex-shrink-0 bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
               onClick={() => setSelectedImage(img.src)}
             >
               <img
                 src={img.src}
                 alt={img.alt}
-                className="w-full h-[300px] md:h-[400px] object-cover"
+                className="w-[400px] h-[300px] md:h-[400px] object-cover"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                 }}
               />
             </div>
-          ))}
-        </div>
-        <div className="flex justify-center mt-8 gap-2">
-          {[0, 1, 2, 3].map((dot) => (
-            <div
-              key={dot}
-              className={`w-3 h-3 rounded-full cursor-pointer transition-colors ${
-                activeDot === dot ? "bg-[#002d62]" : "bg-gray-300"
-              }`}
-              onClick={() => setActiveDot(dot)}
-            ></div>
           ))}
         </div>
       </section>
