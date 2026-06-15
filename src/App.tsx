@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import FormSurvey from "./pages/form-survey";
 import Thanks from "./pages/thanks";
 import { DefaultLayout } from "./components/layouts/default-layout";
-import Pelayanan from "./pages/pelayangn";
+import Beranda from "./pages/beranda";
 import { IpProvider } from "./providers/IpProvider";
 import RekapData from "./pages/rekap-data";
 import Gratifikasi from "./pages/gratifikasi";
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <Pelayanan />
+        element: <Beranda />
       },
       {
         path: 'survey-kepuasan-pelanggan',
@@ -23,10 +23,6 @@ const router = createBrowserRouter([
       {
         path: 'terima-kasih',
         element: <Thanks />
-      },
-      {
-        path: 'pelayanan-pengaduan',
-        element: <Pelayanan />
       },
       {
         path: 'gratifikasi',

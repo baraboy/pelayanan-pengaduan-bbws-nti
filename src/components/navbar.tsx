@@ -14,10 +14,9 @@ export function Navbar() {
                     <div className="font-bold text-xl">BBWS NT I Mataram</div>
                 </div>
                 <div className="hidden md:flex gap-4">
-                    <Link to={'/pelayanan-pengaduan'} className="text-sm font-medium">Layanan & Pengaduan</Link>
+                    <Link to={'/'} className="text-sm font-medium">Beranda</Link>
                     <Link to={'/survey-kepuasan-pelanggan'} className="text-sm font-medium">Survey Kepuasan Masyarakat</Link>
                     <Link to={'/rekap-data'} className="text-sm font-medium">Rekap Data Survey</Link>
-                    {/* <Link to={'/gratifikasi'} className="text-sm font-medium">Gratifikasi</Link> */}
                     <a href="https://sda.pu.go.id/balai/bbwsnt1/" className="text-sm font-medium">Kembali ke Web Balai</a>
                 </div>
 
@@ -34,8 +33,9 @@ export function Navbar() {
 
             {isOpen &&
                 <div className="absolute md:hidden flex flex-col bg-blue-900 mt-0.5 text-white w-full py-2 ">
-                    <Link to={'/pelayanan-pengaduan'} className="text-sm font-medium w-full px-4 py-2" onClick={() => setIsOpen(false)}>Layanan & Pengaduan</Link>
+                    <Link to={'/'} className="text-sm font-medium w-full px-4 py-2" onClick={() => setIsOpen(false)}>Beranda</Link>
                     <Link to={'/survey-kepuasan-pelanggan'} className="text-sm font-medium w-full px-4 py-2" onClick={() => setIsOpen(false)}>Survey Kepuasan Masyarakat</Link>
+                    <Link to={'/rekap-data'} className="text-sm font-medium w-full px-4 py-2" onClick={() => setIsOpen(false)}>Rekap Data Survey</Link>
                     <a href="https://sda.pu.go.id/balai/bbwsnt1/" className="text-sm font-medium w-full px-4 py-2" onClick={() => setIsOpen(false)}>Kembali ke Web Balai</a>
                 </div>
             }
