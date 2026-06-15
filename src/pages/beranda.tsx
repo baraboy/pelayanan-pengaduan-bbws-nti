@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Wave from "react-wavify";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const dokumentasiImages = [
     { src: "/dokumentasi-kegiatan/1.webp", alt: "Dokumentasi 1" },
@@ -17,12 +17,23 @@ const dokumentasiImages = [
 
 export default function Beranda() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (scrollRef.current) {
+            const scrollAmount = 300;
+            scrollRef.current.scrollBy({
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    };
 
     return (
         <div className="relative w-full">
             {/* Hero Section with Wave */}
             <div className="absolute w-full top-0">
-                <div className="bg-gradient-to-b from-blue-900 to-blue-800 w-full h-[260px] relative">
+                <div className="bg-gradient-to-b from-blue-900 to-blue-800 w-full h-[280px] relative">
                     <div className="absolute bottom-0 w-full">
                         <Wave fill='#ffffff'
                             paused={false}
@@ -47,12 +58,106 @@ export default function Beranda() {
                 </div>
             </div>
 
-            <div className="mx-auto max-w-5xl px-4 pt-8 pb-16 relative z-10">
-                {/* Hero Text */}
-                <div className="text-center mb-6">
-                    <h1 className="font-bold text-4xl text-white tracking-wide">GRATIFIKASI</h1>
-                    <p className="text-white text-lg mt-2">Unit Pengendalian Gratifikasi (UPG)</p>
-                    <p className="text-white text-sm opacity-80 mt-1">Balai Besar Wilayah Sungai Nusa Tenggara I Mataram</p>
+            <div className="mx-auto max-w-6xl px-4 pt-8 pb-16 relative z-10">
+                {/* Hero Header */}
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-6">
+                    <div className="flex flex-col md:flex-row items-center gap-8">
+                        {/* Left: Text Content */}
+                        <div className="flex-1">
+                            <h1 className="text-3xl font-bold text-gray-800 mb-2">Laporkan Gratifikasi dengan</h1>
+                            <h1 className="text-4xl font-bold text-blue-600 mb-4">Aman & Mudah</h1>
+                            <p className="text-gray-600 leading-relaxed">
+                                Kanal resmi pelaporan gratifikasi BBWSNT I Mataram. Mendukung tata kelola yang bersih dan transparan melalui sistem yang terpercaya dan sesuai ketentuan hukum yang berlaku.
+                            </p>
+                            <div className="flex flex-wrap gap-3 mt-6">
+                                <Link
+                                    to={'/gratifikasi'}
+                                    className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2 transition-colors shadow-md"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Lapor Gratifikasi
+                                </Link>
+                                <a
+                                    href="/sertifikat/SAB 00174 (1).pdf"
+                                    target="_blank"
+                                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2 transition-colors shadow-md"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Pedoman Gratifikasi
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Right: Certificate Image */}
+                        <div className="w-full md:w-80 flex-shrink-0">
+                            <a href="/sertifikat/SAB 00174 (1).pdf" target="_blank" className="block">
+                                <div className="bg-gray-100 rounded-xl overflow-hidden border-2 border-gray-200 hover:border-blue-400 transition-colors">
+                                    <img
+                                        src="/sertifikat-preview.png"
+                                        alt="Sertifikat Gratifikasi"
+                                        className="w-full h-48 object-cover"
+                                        onError={(e) => {
+                                            e.currentTarget.style.display = 'none';
+                                        }}
+                                    />
+                                    <div className="p-3 bg-blue-50">
+                                        <p className="text-sm font-medium text-blue-800 text-center">Klik untuk melihat sertifikat</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Scrolling Images */}
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-xl font-bold text-gray-800">Dokumentasi Kegiatan</h2>
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => scroll('left')}
+                                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <button
+                                onClick={() => scroll('right')}
+                                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        ref={scrollRef}
+                        className="flex gap-4 overflow-x-auto scrollbar-hide pb-2"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    >
+                        {dokumentasiImages.map((img, index) => (
+                            <div
+                                key={index}
+                                className="flex-shrink-0 w-72 aspect-video rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity border border-gray-200"
+                                onClick={() => setSelectedImage(img.src)}
+                            >
+                                <img
+                                    src={img.src}
+                                    alt={img.alt}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        e.currentTarget.style.display = 'none';
+                                    }}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 {/* Main Content Card */}
@@ -126,7 +231,7 @@ export default function Beranda() {
                     </div>
 
                     {/* Section 4: Yang Perlu Dilaporkan */}
-                    <div className="mb-10">
+                    <div className="mb-8">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-white font-bold text-sm">4</div>
                             <h2 className="text-xl font-bold text-gray-800">Yang Perlu Dilaporkan</h2>
@@ -158,63 +263,6 @@ export default function Beranda() {
                                     <span className="text-gray-700">Penerimaan hadiah terkait penanganan perkara</span>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex flex-col items-center mt-8 mb-10">
-                        <div className="text-center mb-4">
-                            <h3 className="text-2xl font-bold text-gray-800">Laporkan Gratifikasi dengan</h3>
-                            <h3 className="text-3xl font-bold text-blue-600">Aman & Mudah</h3>
-                            <p className="text-gray-600 mt-2 max-w-xl mx-auto">
-                                Kanal resmi pelaporan gratifikasi BBWSNT I Mataram. Mendukung tata kelola yang bersih dan transparan melalui sistem yang terpercaya dan sesuai ketentuan hukum yang berlaku.
-                            </p>
-                        </div>
-                        <div className="flex flex-wrap gap-4 justify-center">
-                            <Link
-                                to={'/gratifikasi'}
-                                className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-semibold flex items-center gap-3 transition-colors shadow-md"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                Lapor Gratifikasi / Penyuapan
-                            </Link>
-                            <a
-                                href="/sertifikat/SAB 00174 (1).pdf"
-                                target="_blank"
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold flex items-center gap-3 transition-colors shadow-md"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                Pedoman Gratifikasi
-                            </a>
-                        </div>
-                    </div>
-
-                    {/* Dokumentasi Section */}
-                    <div className="mb-8">
-                        <h2 className="text-xl font-bold text-gray-800 mb-2">Dokumentasi Kegiatan</h2>
-                        <p className="text-gray-500 text-sm mb-6">Galeri kegiatan Unit Pengendalian Gratifikasi BBWS NT I Mataram</p>
-
-                        <div className="grid grid-cols-5 gap-3">
-                            {dokumentasiImages.map((img, index) => (
-                                <div
-                                    key={index}
-                                    className="aspect-square rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity border border-gray-200"
-                                    onClick={() => setSelectedImage(img.src)}
-                                >
-                                    <img
-                                        src={img.src}
-                                        alt={img.alt}
-                                        className="w-full h-full object-cover"
-                                        onError={(e) => {
-                                            e.currentTarget.style.display = 'none';
-                                        }}
-                                    />
-                                </div>
-                            ))}
                         </div>
                     </div>
 
