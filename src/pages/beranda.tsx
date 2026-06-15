@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Wave from "react-wavify";
 import { useState } from "react";
 
 const dokumentasiImages = [
@@ -23,31 +22,9 @@ export default function Beranda() {
 
     return (
         <div className="min-h-screen font-sans bg-[#f9f9f9]">
-            {/* Header */}
-            <header className="bg-[#002d62] text-white py-4 px-6 md:px-12 flex items-center justify-between shadow-md sticky top-0 z-50">
-                <div className="flex items-center gap-4">
-                    <img src="/pu-logo.png" alt="BBWS Logo" className="w-10 h-10 rounded-md" />
-                    <h1 className="text-xl md:text-2xl font-bold">BBWS NT I Mataram</h1>
-                </div>
-                <nav>
-                    <ul className="hidden md:flex items-center gap-6 text-sm">
-                        <li><Link to={'/'} className="hover:text-yellow-400">Beranda</Link></li>
-                        <li><Link to={'/gratifikasi'} className="hover:text-yellow-400">Gratifikasi & Layanan</Link></li>
-                        <li><Link to={'/survey-kepuasan-pelanggan'} className="hover:text-yellow-400">Survey Kepuasan Masyarakat</Link></li>
-                        <li><Link to={'/rekap-data'} className="hover:text-yellow-400">Rekap Data Survey</Link></li>
-                        <li><a href="https://sda.pu.go.id/balai/bbwsnt1/" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400">Kembali ke Web Balai</a></li>
-                    </ul>
-                </nav>
-            </header>
-
             {/* Hero Section */}
-            <section className="relative bg-[#002d62] text-white py-16 md:py-24 px-6 md:px-20 lg:px-32 overflow-hidden">
-                {/* Background Image with Blur */}
-                <div className="absolute inset-0 z-0 opacity-30">
-                    <div className="absolute inset-0 bg-gradient-to-b from-blue-900 to-blue-800"></div>
-                </div>
-
-                <div className="relative z-10 grid grid-cols-1 md:grid-cols-[2fr,1fr] items-center gap-8 md:gap-16">
+            <section className="relative bg-[#002d62] text-white py-16 md:py-24 px-6 md:px-20 lg:px-32">
+                <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] items-center gap-8 md:gap-16 max-w-7xl mx-auto">
                     {/* Left: Text Content */}
                     <div>
                         <h1 className="text-3xl md:text-5xl font-extrabold leading-tight mb-6">
@@ -83,15 +60,6 @@ export default function Beranda() {
                             </div>
                         </a>
                     </div>
-                </div>
-
-                {/* Wave Effect */}
-                <div className="absolute bottom-0 w-full">
-                    <Wave fill='#f9f9f9'
-                        paused={false}
-                        style={{ display: 'flex' }}
-                        options={{ height: 40, amplitude: 40, speed: 0.1, points: 3 }}
-                    />
                 </div>
             </section>
 
