@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 const dokumentasiImages = [
   { src: "/dokumentasi-kegiatan/1.webp", alt: "Dokumentasi 1" },
@@ -16,49 +16,19 @@ const dokumentasiImages = [
 
 export default function Beranda() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Auto scroll dokumentasi images
+  // Carousel state and auto-slide
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const imagesPerSlide = 3;
+  const totalSlides = Math.ceil(dokumentasiImages.length / imagesPerSlide);
+
   useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
+    const interval = setInterval(() => {
+      setCarouselIndex((prev) => (prev + 1) % totalSlides);
+    }, 4000);
 
-    let scrollInterval: ReturnType<typeof setInterval>;
-    let scrollDirection = 1;
-
-    const startAutoScroll = () => {
-      scrollInterval = setInterval(() => {
-        if (!scrollContainer) return;
-
-        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
-        const currentScroll = scrollContainer.scrollLeft;
-
-        // Change direction when reaching edges
-        if (currentScroll >= maxScroll - 10) {
-          scrollDirection = -1;
-        } else if (currentScroll <= 0) {
-          scrollDirection = 1;
-        }
-
-        scrollContainer.scrollLeft += scrollDirection * 1;
-      }, 30);
-    };
-
-    startAutoScroll();
-
-    // Pause on hover
-    const pauseScroll = () => clearInterval(scrollInterval);
-    const resumeScroll = () => startAutoScroll();
-
-    scrollContainer.addEventListener("mouseenter", pauseScroll);
-    scrollContainer.addEventListener("mouseleave", resumeScroll);
-
-    return () => {
-      clearInterval(scrollInterval);
-      scrollContainer.removeEventListener("mouseenter", pauseScroll);
-      scrollContainer.removeEventListener("mouseleave", resumeScroll);
-    };
-  }, []);
+    return () => clearInterval(interval);
+  }, [totalSlides]);
 
   return (
     <div className="min-h-screen font-sans bg-[#f9f9f9]">
@@ -101,36 +71,47 @@ export default function Beranda() {
       </section>
 
       {/* Kegiatan Section */}
-      <section className="bg-white text-[#002d62] py-12 px-6 md:px-12 overflow-hidden">
+      <section className="bg-white text-[#002d62] py-12 px-6 md:px-12">
         <div className="text-center mb-8">
           <h2 className="text-2xl md:text-4xl font-extrabold mb-6 text-black">
             Kegiatan
           </h2>
         </div>
-        <div
-          ref={scrollRef}
-          className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
-        >
-          {dokumentasiImages.map((img, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
-              onClick={() => setSelectedImage(img.src)}
-            >
-              <img
-                src={img.src}
-                alt={img.alt}
-                className="w-[400px] h-[300px] md:h-[400px] object-cover"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
+        <div className="max-w-6xl mx-auto">
+          <div className="flex gap-6 justify-center">
+            {dokumentasiImages
+              .slice(
+                carouselIndex * imagesPerSlide,
+                carouselIndex * imagesPerSlide + imagesPerSlide,
+              )
+              .map((img, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => setSelectedImage(img.src)}
+                >
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-[300px] h-[250px] md:h-[350px] object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                </div>
+              ))}
+          </div>
+          <div className="flex justify-center mt-8 gap-2">
+            {Array.from({ length: totalSlides }).map((_, index) => (
+              <button
+                key={index}
+                className={`w-3 h-3 rounded-full transition-colors ${
+                  carouselIndex === index ? "bg-[#002d62]" : "bg-gray-300"
+                }`}
+                onClick={() => setCarouselIndex(index)}
               />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
