@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const dokumentasiImages = [
   { src: "/dokumentasi-kegiatan/1.webp", alt: "Dokumentasi 1" },
@@ -17,18 +20,31 @@ const dokumentasiImages = [
 export default function Beranda() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Carousel state and auto-slide
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const imagesPerSlide = 3;
-  const totalSlides = Math.ceil(dokumentasiImages.length / imagesPerSlide);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCarouselIndex((prev) => (prev + 1) % totalSlides);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [totalSlides]);
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   return (
     <div className="min-h-screen font-sans bg-[#f9f9f9]">
@@ -78,40 +94,25 @@ export default function Beranda() {
           </h2>
         </div>
         <div className="max-w-6xl mx-auto">
-          <div className="flex gap-6 justify-center">
-            {dokumentasiImages
-              .slice(
-                carouselIndex * imagesPerSlide,
-                carouselIndex * imagesPerSlide + imagesPerSlide,
-              )
-              .map((img, index) => (
+          <Slider {...carouselSettings}>
+            {dokumentasiImages.map((img, index) => (
+              <div key={index} className="px-2">
                 <div
-                  key={index}
-                  className="flex-shrink-0 bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                  className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
                   onClick={() => setSelectedImage(img.src)}
                 >
                   <img
                     src={img.src}
                     alt={img.alt}
-                    className="w-[300px] h-[250px] md:h-[350px] object-cover"
+                    className="w-full h-[250px] md:h-[350px] object-cover"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                     }}
                   />
                 </div>
-              ))}
-          </div>
-          <div className="flex justify-center mt-8 gap-2">
-            {Array.from({ length: totalSlides }).map((_, index) => (
-              <button
-                key={index}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  carouselIndex === index ? "bg-[#002d62]" : "bg-gray-300"
-                }`}
-                onClick={() => setCarouselIndex(index)}
-              />
+              </div>
             ))}
-          </div>
+          </Slider>
         </div>
       </section>
 
