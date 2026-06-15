@@ -19,7 +19,7 @@ export function Navbar() {
             to={"/gratifikasi"}
             className="text-sm font-medium hover:text-yellow-400"
           >
-            Gratifikasi & Layanan
+            Gratifikasi & Penyuapan
           </Link>
           <Link
             to={"/survey-kepuasan-pelanggan"}
