@@ -49,8 +49,19 @@ export default function Beranda() {
   return (
     <div className="min-h-screen font-sans bg-[#f9f9f9]">
       {/* Hero Section */}
-      <section className="relative bg-[#002d62] text-white py-10 md:py-10 px-6 md:px-20 lg:px-32">
-        <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] items-center gap-8 md:gap-16 max-w-7xl mx-auto">
+      <section className="relative text-white py-10 md:py-10 px-6 md:px-20 lg:px-32">
+        {/* Background Image with Blue Overlay */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: "url('/balai.webp')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="absolute inset-0 bg-[#002d62]/70" />
+        </div>
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-[2fr,1fr] items-center gap-8 md:gap-16 max-w-7xl mx-auto">
           {/* Left: Text Content */}
           <div>
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight mb-6">
