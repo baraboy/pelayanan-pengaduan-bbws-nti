@@ -77,7 +77,9 @@ export default function Beranda() {
               src="/sertifikat/Sertifikat ISO 370001.jpg"
               alt="Sertifikat ISO 37001"
               className="w-full max-w-[280px] md:max-w-[400px] h-auto rounded-lg shadow-xl cursor-pointer hover:opacity-90 transition-opacity"
-              onClick={() => setSelectedImage("/sertifikat/Sertifikat ISO 370001.jpg")}
+              onClick={() =>
+                setSelectedImage("/sertifikat/Sertifikat ISO 370001.jpg")
+              }
               onError={(e) => {
                 e.currentTarget.style.display = "none";
               }}
@@ -318,7 +320,8 @@ export default function Beranda() {
                 </div>
                 <h3 className="font-semibold text-gray-800 mb-1">Alamat</h3>
                 <p className="text-sm text-gray-600">
-                  Jl. Langko No. 73 Mataram, NTB
+                  Jl Ahmad Yani No 1 Gerimax Indah, Lombok Barat, Nusa Tenggara
+                  Barat - Indonesia
                 </p>
               </div>
               <div className="bg-blue-50 rounded-xl p-5 text-center">
@@ -339,7 +342,7 @@ export default function Beranda() {
                   </svg>
                 </div>
                 <h3 className="font-semibold text-gray-800 mb-1">Telepon</h3>
-                <p className="text-sm text-gray-600">(0370) 623 070</p>
+                <p className="text-sm text-gray-600">(0370) 672 282</p>
               </div>
               <div className="bg-blue-50 rounded-xl p-5 text-center">
                 <div className="w-12 h-12 bg-[#002d62] rounded-full flex items-center justify-center mx-auto mb-3">
@@ -359,7 +362,7 @@ export default function Beranda() {
                   </svg>
                 </div>
                 <h3 className="font-semibold text-gray-800 mb-1">Email</h3>
-                <p className="text-sm text-gray-600">upg@bbwsnt1.com</p>
+                <p className="text-sm text-gray-600">bbwsnt1mataram@pu.go.id</p>
               </div>
             </div>
           </div>
@@ -396,7 +399,7 @@ export default function Beranda() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800">
-                      Survey Kepuasan
+                      Survey Kepuasan Masyarakat
                     </h3>
                     <p className="text-sm text-gray-500">
                       Ikuti survey kepuasan masyarakat
