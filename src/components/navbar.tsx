@@ -15,16 +15,30 @@ export function Navbar() {
           <Link to={"/"} className="text-sm font-medium hover:text-yellow-400">
             Beranda
           </Link>
-          <Link to={"/gratifikasi"} className="text-sm font-medium hover:text-yellow-400">
+          <Link
+            to={"/gratifikasi"}
+            className="text-sm font-medium hover:text-yellow-400"
+          >
             Gratifikasi & Layanan
           </Link>
-          <Link to={"/survey-kepuasan-pelanggan"} className="text-sm font-medium hover:text-yellow-400">
+          <Link
+            to={"/survey-kepuasan-pelanggan"}
+            className="text-sm font-medium hover:text-yellow-400"
+          >
             Survey Kepuasan Masyarakat
           </Link>
-          <Link to={"/rekap-data"} className="text-sm font-medium hover:text-yellow-400">
+          <Link
+            to={"/rekap-data"}
+            className="text-sm font-medium hover:text-yellow-400"
+          >
             Rekap Data Survey
           </Link>
-          <a href="https://sda.pu.go.id/balai/bbwsnt1/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium hover:text-yellow-400">
+          <a
+            href="https://sda.pu.go.id/balai/bbwsnt1/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium hover:text-yellow-400"
+          >
             Kembali ke Web Balai
           </a>
         </div>
@@ -55,19 +69,41 @@ export function Navbar() {
 
       {isOpen && (
         <div className="absolute md:hidden flex flex-col bg-blue-900 mt-0.5 text-white w-full py-2">
-          <Link to={"/"} className="text-sm font-medium w-full px-4 py-2" onClick={() => setIsOpen(false)}>
+          <Link
+            to={"/"}
+            className="text-sm font-medium w-full px-4 py-2"
+            onClick={() => setIsOpen(false)}
+          >
             Beranda
           </Link>
-          <Link to={"/gratifikasi"} className="text-sm font-medium w-full px-4 py-2" onClick={() => setIsOpen(false)}>
-            Gratifikasi & Layanan
+          <Link
+            to={"/gratifikasi"}
+            className="text-sm font-medium w-full px-4 py-2"
+            onClick={() => setIsOpen(false)}
+          >
+            Gratifikasi & Penyuapan
           </Link>
-          <Link to={"/survey-kepuasan-pelanggan"} className="text-sm font-medium w-full px-4 py-2" onClick={() => setIsOpen(false)}>
+          <Link
+            to={"/survey-kepuasan-pelanggan"}
+            className="text-sm font-medium w-full px-4 py-2"
+            onClick={() => setIsOpen(false)}
+          >
             Survey Kepuasan Masyarakat
           </Link>
-          <Link to={"/rekap-data"} className="text-sm font-medium w-full px-4 py-2" onClick={() => setIsOpen(false)}>
+          <Link
+            to={"/rekap-data"}
+            className="text-sm font-medium w-full px-4 py-2"
+            onClick={() => setIsOpen(false)}
+          >
             Rekap Data Survey
           </Link>
-          <a href="https://sda.pu.go.id/balai/bbwsnt1/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium w-full px-4 py-2" onClick={() => setIsOpen(false)}>
+          <a
+            href="https://sda.pu.go.id/balai/bbwsnt1/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium w-full px-4 py-2"
+            onClick={() => setIsOpen(false)}
+          >
             Kembali ke Web Balai
           </a>
         </div>

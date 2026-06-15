@@ -49,7 +49,7 @@ export default function Beranda() {
   return (
     <div className="min-h-screen font-sans bg-[#f9f9f9]">
       {/* Hero Section */}
-      <section className="relative bg-[#002d62] text-white py-16 md:py-24 px-6 md:px-20 lg:px-32">
+      <section className="relative bg-[#002d62] text-white py-10 md:py-10 px-6 md:px-20 lg:px-32">
         <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] items-center gap-8 md:gap-16 max-w-7xl mx-auto">
           {/* Left: Text Content */}
           <div>
@@ -87,7 +87,7 @@ export default function Beranda() {
       </section>
 
       {/* Kegiatan Section */}
-      <section className="bg-white text-[#002d62] py-12 px-6 md:px-12">
+      <section className="bg-white text-[#002d62] py-10 px-6 md:px-12">
         <div className="text-center mb-8">
           <h2 className="text-2xl md:text-4xl font-extrabold mb-6 text-black">
             Kegiatan
@@ -117,7 +117,7 @@ export default function Beranda() {
       </section>
 
       {/* Info Sections */}
-      <section className="bg-[#f9f9f9] py-12 px-6 md:px-12">
+      <section className="bg-[#f9f9f9] py-10 px-6 md:px-12">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Section 1: Apa itu Gratifikasi */}
           <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
@@ -476,13 +476,16 @@ export default function Beranda() {
       {/* Image Preview Modal */}
       {selectedImage && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-8"
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-start justify-center p-4 overflow-auto"
           onClick={() => setSelectedImage(null)}
         >
-          <div className="relative max-w-4xl w-full">
+          <div className="relative max-w-6xl w-full my-10">
             <button
-              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
-              onClick={() => setSelectedImage(null)}
+              className="fixed top-4 right-4 z-50 bg-white/20 hover:bg-white/40 text-white rounded-full p-2 transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedImage(null);
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
