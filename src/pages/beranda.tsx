@@ -59,7 +59,7 @@ export default function Beranda() {
             backgroundPosition: "center",
           }}
         >
-          <div className="absolute inset-0 bg-[#002d62]/70" />
+          <div className="absolute inset-0 bg-[#002d62]/40" />
         </div>
         <div className="relative z-10 grid grid-cols-1 md:grid-cols-[2fr,1fr] items-center gap-8 md:gap-16 max-w-7xl mx-auto">
           {/* Left: Text Content */}
