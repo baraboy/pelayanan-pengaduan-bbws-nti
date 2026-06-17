@@ -97,9 +97,13 @@ export default function Gratifikasi() {
   };
 
   return (
-    <div className="min-h-screen bg-[#001b44] font-sans">
+    <div className="min-h-screen bg-[#112980] font-sans relative overflow-hidden">
+      {/* Decorative Circles */}
+      <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[#0D3084]/50" />
+      <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-[#0D3084]/50" />
+
       {/* Title Section */}
-      <section className="text-white text-center py-12 px-6">
+      <section className="text-white text-center py-12 px-6 relative z-10">
         <h1 className="text-3xl md:text-4xl font-bold mb-4">
           Kanal Pengaduan Gratifikasi dan Penyuapan BBWS NT I Mataram
         </h1>
@@ -111,7 +115,7 @@ export default function Gratifikasi() {
       </section>
 
       {/* Form Section */}
-      <section className="pb-20 px-4">
+      <section className="pb-20 px-4 relative z-10">
         <div className="max-w-5xl mx-auto bg-[#f8faff] rounded-xl shadow-2xl overflow-hidden">
           <div className="p-8 md:p-12">
             <h2 className="text-[#002d62] text-2xl font-bold text-center mb-10">
