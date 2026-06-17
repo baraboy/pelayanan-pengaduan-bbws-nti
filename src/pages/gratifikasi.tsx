@@ -99,8 +99,8 @@ export default function Gratifikasi() {
   return (
     <div className="min-h-screen bg-[#112980] font-sans relative overflow-hidden">
       {/* Decorative Circles */}
-      <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[#0D3084]/50" />
-      <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-[#0D3084]/50" />
+      <div className="absolute -top-20 -right-20 w-120 h-120 rounded-full bg-[#0D3084]/50" />
+      <div className="absolute -bottom-20 -left-20 w-120 h-120 rounded-full bg-[#0D3084]/50" />
 
       {/* Title Section */}
       <section className="text-white text-center py-12 px-6 relative z-10">
@@ -109,8 +109,8 @@ export default function Gratifikasi() {
         </h1>
         <p className="text-blue-200 max-w-4xl mx-auto text-lg leading-relaxed">
           Laporkan jika anda melihat tindakan gratifikasi dan penyuapan dari
-          Pejabat/Pegawai Kepada Tim UPG atau Tim FKAP Balai Besar Wilayah Sungai
-          Nusa Tenggara I Mataram
+          Pejabat/Pegawai Kepada Tim UPG atau Tim FKAP Balai Besar Wilayah
+          Sungai Nusa Tenggara I Mataram
         </p>
       </section>
 
@@ -126,7 +126,8 @@ export default function Gratifikasi() {
               {/* Nama Lengkap */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Nama Lengkap <span className="italic text-gray-500">(opsional)</span>
+                  Nama Lengkap{" "}
+                  <span className="italic text-gray-500">(opsional)</span>
                 </label>
                 <input
                   type="text"
