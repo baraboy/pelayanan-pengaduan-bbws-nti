@@ -233,23 +233,10 @@ export default function Gratifikasi() {
                   <button
                     type="button"
                     onClick={reloadCaptcha}
-                    className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+                    className="p-1 hover:opacity-80 transition-opacity"
                     aria-label="Reload Captcha"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="h-5 w-5 text-gray-600"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16.023 9.348h4.992m0 0-1.5-1.5m1.5 1.5-1.5 1.5M7.98 14.652H2.988m0 0 1.5 1.5m-1.5-1.5 1.5-1.5M12 6.75a5.25 5.25 0 0 1 5.25 5.25v.75m-10.5 0V12A5.25 5.25 0 0 1 12 17.25m0 10.5V12A5.25 5.25 0 0 1 7.98 6.75m0 10.5V12a5.25 5.25 0 0 1-5.25 5.25m5.25 5.25H12"
-                      />
-                    </svg>
+                    <img src="/reload.png" alt="Reload" className="h-10 w-10" />
                   </button>
                   <input
                     ref={captchaRef}
@@ -266,7 +253,7 @@ export default function Gratifikasi() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-[#0047ba] hover:bg-[#00368e] disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
+                className="w-full bg-[#FFC927] hover:bg-[#E5B422] disabled:bg-gray-400 text-[#002d62] font-bold py-3 px-6 rounded-lg shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
               >
                 {isLoading ? "Loading..." : "Simpan"}
               </button>
