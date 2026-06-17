@@ -229,15 +229,6 @@ export default function Gratifikasi() {
                   Masukkan Kode Captcha
                 </label>
                 <div className="flex items-center gap-4">
-                  <LoadCanvasTemplateNoReload />
-                  <button
-                    type="button"
-                    onClick={reloadCaptcha}
-                    className="p-1 hover:opacity-80 transition-opacity"
-                    aria-label="Reload Captcha"
-                  >
-                    <img src="/reload.png" alt="Reload" className="h-10 w-10" />
-                  </button>
                   <input
                     ref={captchaRef}
                     placeholder="Ketik captcha di sini"
@@ -246,6 +237,15 @@ export default function Gratifikasi() {
                     type="text"
                     className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                   />
+                  <button
+                    type="button"
+                    onClick={reloadCaptcha}
+                    className="p-1 hover:opacity-80 transition-opacity"
+                    aria-label="Reload Captcha"
+                  >
+                    <img src="/reload.png" alt="Reload" className="h-6 w-6" />
+                  </button>
+                  <LoadCanvasTemplateNoReload />
                 </div>
               </div>
 
