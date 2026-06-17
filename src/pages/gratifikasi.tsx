@@ -99,8 +99,8 @@ export default function Gratifikasi() {
   return (
     <div className="min-h-screen bg-[#112980] font-sans relative overflow-hidden">
       {/* Decorative Circles */}
-      <div className="absolute -top-20 -right-20 w-120 h-120 rounded-full bg-[#0D3084]/50" />
-      <div className="absolute -bottom-20 -left-20 w-120 h-120 rounded-full bg-[#0D3084]/50" />
+      <div className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full bg-[#0D3084]/30" />
+      <div className="absolute -bottom-32 -left-32 w-[600px] h-[600px] rounded-full bg-[#0D3084]/30" />
 
       {/* Title Section */}
       <section className="text-white text-center py-12 px-6 relative z-10">
