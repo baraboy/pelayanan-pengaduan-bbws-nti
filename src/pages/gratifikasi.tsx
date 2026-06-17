@@ -1,4 +1,3 @@
-import Wave from "react-wavify";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplateNoReload,
@@ -7,7 +6,6 @@ import {
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import axios from "../libs/axios";
 import { useNavigate } from "react-router-dom";
-// import { UploadFileMultiple } from "../components/upload-file-multiple";
 import UploadFile from "../components/upload-file";
 
 export default function Gratifikasi() {
@@ -33,7 +31,6 @@ export default function Gratifikasi() {
   }, []);
 
   useEffect(() => {
-    //   console.log('form data', formData)
     if (formData.jenis_pelaporan == "Lainnya") {
       setJenisPelaporanIsLainnya(true);
     } else {
@@ -49,10 +46,7 @@ export default function Gratifikasi() {
 
   const checkCaptcha = () => {
     let user_captcha = captchaRef.current.value;
-    console.log("user captcha", user_captcha);
-
     if (validateCaptcha(user_captcha, false) == true) {
-      // alert('Captcha Matched');
       return true;
     } else {
       loadCaptchaEnginge(captchaLength);
@@ -100,256 +94,183 @@ export default function Gratifikasi() {
     } finally {
       setIsLoading(false);
     }
-
-    // console.log('form data', formData)
   };
 
   return (
-    <>
-      <div className="relative w-full">
-        <div className="absolute w-full top-0">
-          <div className="bg-gradient-to-b from-blue-950 to-blue-800 w-full h-[450px] relative">
-            <div className="absolute bottom-0 w-full">
-              <Wave
-                fill="#ffffff"
-                paused={false}
-                style={{ display: "flex", opacity: 0.5 }}
-                options={{
-                  height: 30,
-                  amplitude: 30,
-                  speed: 0.09,
-                  points: 3,
-                }}
-              />
-            </div>
-            <div className="absolute bottom-0 w-full">
-              <Wave
-                fill="#ffffff"
-                paused={false}
-                style={{ display: "flex", opacity: 0.7 }}
-                options={{
-                  height: 30,
-                  amplitude: 30,
-                  speed: 0.12,
-                  points: 3,
-                }}
-              />
-            </div>
-            <div className="absolute bottom-0 w-full">
-              <Wave
-                fill="#ffffff"
-                paused={false}
-                style={{ display: "flex", opacity: 1 }}
-                options={{
-                  height: 30,
-                  amplitude: 30,
-                  speed: 0.15,
-                  points: 3,
-                }}
-              />
-            </div>
-          </div>
-        </div>
+    <div className="min-h-screen bg-[#001b44] font-sans">
+      {/* Title Section */}
+      <section className="text-white text-center py-12 px-6">
+        <h1 className="text-3xl md:text-4xl font-bold mb-4">
+          Kanal Pengaduan Gratifikasi dan Penyuapan BBWS NT I Mataram
+        </h1>
+        <p className="text-blue-200 max-w-4xl mx-auto text-lg leading-relaxed">
+          Laporkan jika anda melihat tindakan gratifikasi dan penyuapan dari
+          Pejabat/Pegawai Kepada Tim UPG atau Tim FKAP Balai Besar Wilayah Sungai
+          Nusa Tenggara I Mataram
+        </p>
+      </section>
 
-        <div className="mx-auto max-w-3xl px-4 pt-16 relative z-10">
-          <form onSubmit={handleOnSubmit}>
-            <h1 className="font-semibold text-4xl text-center text-white">
-              Gratifikasi dan Penyuapan
-            </h1>
-            <div className="p-6 bg-white shadow rounded-xl border mt-8">
-              <h2 className="text-base font-semibold leading-7 text-gray-900">
-                Form Laporan Gratifikasi dan Penyuapan BBWS NT Mataram
-              </h2>
-              <p className="mt-1 text-sm leading-6 text-gray-600">
-                Laporan Gratifikasi dan Penyuapan di lingkungan BBWS NT I
-                Mataram
-              </p>
+      {/* Form Section */}
+      <section className="pb-20 px-4">
+        <div className="max-w-5xl mx-auto bg-[#f8faff] rounded-xl shadow-2xl overflow-hidden">
+          <div className="p-8 md:p-12">
+            <h2 className="text-[#002d62] text-2xl font-bold text-center mb-10">
+              Form Laporan Gratifikasi dan Penyuapan BBWS NT I Mataram
+            </h2>
 
-              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <div className="sm:col-span-6">
-                  <label
-                    htmlFor="nama"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Nama Lengkap{" "}
-                    <span className="italic text-gray-500">(opsional)</span>
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      name="nama"
-                      id="nama"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      onChange={handleOnChange}
-                      value={formData.nama}
-                    />
-                  </div>
-                </div>
+            <form onSubmit={handleOnSubmit} className="space-y-6">
+              {/* Nama Lengkap */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Nama Lengkap <span className="italic text-gray-500">(opsional)</span>
+                </label>
+                <input
+                  type="text"
+                  name="nama"
+                  id="nama"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  placeholder="Masukkan nama lengkap anda"
+                  onChange={handleOnChange}
+                  value={formData.nama}
+                />
+              </div>
 
-                <div className="sm:col-span-3">
-                  <label
-                    htmlFor="jenis_pelaporan"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
+              {/* Grid for Jenis and Asal */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Jenis Pelaporan */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Jenis Pelaporan
                   </label>
-                  <div className="mt-2 w-full">
-                    <select
-                      name="jenis_pelaporan"
-                      id="jenis_pelaporan"
-                      autoComplete="jenis_pelaporan"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      value={formData.jenis_pelaporan}
-                      onChange={handleOnChange}
-                      required
-                    >
-                      <option>Pilih jenis pelaporan</option>
-                      <option value={"Penyuapan"}>Penyuapan</option>
-                      <option value={"Gratifikasi"}>Gratifikasi</option>
-                      <option value={"Lainnya"}>Lainnya</option>
-                    </select>
+                  <select
+                    name="jenis_pelaporan"
+                    id="jenis_pelaporan"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none appearance-none bg-white"
+                    value={formData.jenis_pelaporan}
+                    onChange={handleOnChange}
+                    required
+                  >
+                    <option value="">Pilih jenis pelaporan</option>
+                    <option value="Penyuapan">Penyuapan</option>
+                    <option value="Gratifikasi">Gratifikasi</option>
+                    <option value="Lainnya">Lainnya</option>
+                  </select>
 
-                    {jenisPelaporanIsLainnya && (
-                      <input
-                        type="text"
-                        name=""
-                        id="jeni_pelaporan"
-                        className="block w-full mt-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        onChange={(e) => {
-                          setValueJenisPelaporanIsLainnya(e.target.value);
-                        }}
-                        value={valueJenisPelaporanIsLainnya}
-                      />
-                    )}
-                  </div>
+                  {jenisPelaporanIsLainnya && (
+                    <input
+                      type="text"
+                      className="w-full mt-2 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      placeholder="Sebutkan jenis pelaporan lainnya"
+                      onChange={(e) => {
+                        setValueJenisPelaporanIsLainnya(e.target.value);
+                      }}
+                      value={valueJenisPelaporanIsLainnya}
+                    />
+                  )}
                 </div>
 
-                <div className="sm:col-span-3">
-                  <label
-                    htmlFor="asal_pelapor"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
+                {/* Asal Pelaporan */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Asal Pelaporan
                   </label>
-                  <div className="mt-2">
-                    <select
-                      name="asal_pelapor"
-                      id="asal_pelapor"
-                      autoComplete="jenis_pelaporan"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      value={formData.asal_pelapor}
-                      onChange={handleOnChange}
-                      required
-                    >
-                      <option>Pilih asal pelaporan</option>
-                      <option value={"Pegawai"}>Pegawai</option>
-                      <option value={"Masyarakat"}>Masyarakat</option>
-                      <option value={"Mitra"}>Mitra</option>
-                      <option value={"Lainnya"}>Lainnya</option>
-                    </select>
-
-                    {asalPelaporanIsLainnya && (
-                      <input
-                        type="text"
-                        name=""
-                        id="asal_pelapor"
-                        className="block w-full mt-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        onChange={(e) => {
-                          setValueAsalPelaporanIsLainnya(e.target.value);
-                        }}
-                        value={valueAsalPelaporanIsLainnya}
-                      />
-                    )}
-                  </div>
-                </div>
-
-                <div className="sm:col-span-6">
-                  <label
-                    htmlFor="nama"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                  <select
+                    name="asal_pelapor"
+                    id="asal_pelapor"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none appearance-none bg-white"
+                    value={formData.asal_pelapor}
+                    onChange={handleOnChange}
+                    required
                   >
-                    Bukti Dukung Pelaporan
-                  </label>
-                  <div className="mt-2">
-                    {/* <input
-                                            type="file"
-                                            name="bukti_dukung"
-                                            id="bukti_dukung"
-                                            className="block w-full px-1.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                            onChange={handleOnChange}
-                                            value={formData.bukti_dukung}
-                                        /> */}
+                    <option value="">Pilih asal pelaporan</option>
+                    <option value="Pegawai">Pegawai</option>
+                    <option value="Masyarakat">Masyarakat</option>
+                    <option value="Mitra">Mitra</option>
+                    <option value="Lainnya">Lainnya</option>
+                  </select>
 
-                    {/* <UploadFileMultiple name="bukti_dukung" value={formData.bukti_dukung} onChange={(e) => {
-                                            console.log('on change', e)
-                                        }} /> */}
-
-                    <UploadFile
-                      onChange={(v: any) => {
-                        setFormData({
-                          ...formData,
-                          bukti_dukung: v,
-                        });
+                  {asalPelaporanIsLainnya && (
+                    <input
+                      type="text"
+                      className="w-full mt-2 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      placeholder="Sebutkan asal pelaporan lainnya"
+                      onChange={(e) => {
+                        setValueAsalPelaporanIsLainnya(e.target.value);
                       }}
+                      value={valueAsalPelaporanIsLainnya}
                     />
-                  </div>
-                </div>
-
-                <div className="sm:col-span-6">
-                  <div className="w-full flex justify-center rounded-lg p-4">
-                    <div className="flex flex-wrap justify-center gap-4 items-center text-sm mt-2">
-                      <div className="flex items-center gap-3">
-                        <LoadCanvasTemplateNoReload />
-                        <button
-                          type="button"
-                          onClick={reloadCaptcha}
-                          className="inline-flex items-center justify-center rounded-md border p-2 text-gray-700 hover:bg-gray-50"
-                          aria-label="Reload Captcha"
-                          title="Reload Captcha"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="h-4 w-4"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M16.023 9.348h4.992m0 0-1.5-1.5m1.5 1.5-1.5 1.5M7.98 14.652H2.988m0 0 1.5 1.5m-1.5-1.5 1.5-1.5M12 6.75a5.25 5.25 0 0 1 5.25 5.25v.75m-10.5 0V12A5.25 5.25 0 0 1 12 6.75m0 10.5a5.25 5.25 0 0 1-5.25-5.25v-.75m10.5 0V12A5.25 5.25 0 0 1 12 17.25"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                      <div>
-                        <input
-                          ref={captchaRef}
-                          placeholder="Enter Captcha Value"
-                          id="user_captcha_input"
-                          name="user_captcha_input"
-                          type="text"
-                          className="block w-[200px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="sm:col-span-6">
-                  <button
-                    type="submit"
-                    className="rounded-md mt-2 w-full bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                  >
-                    {isLoading ? "Loading..." : "Simpan"}
-                  </button>
+                  )}
                 </div>
               </div>
-            </div>
-          </form>
+
+              {/* Bukti Dukung */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Bukti Dukung Pelaporan
+                </label>
+                <UploadFile
+                  onChange={(v: any) => {
+                    setFormData({
+                      ...formData,
+                      bukti_dukung: v,
+                    });
+                  }}
+                />
+              </div>
+
+              {/* Captcha */}
+              <div className="space-y-4">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Enter Captcha Value
+                </label>
+                <div className="flex items-center gap-4">
+                  <button
+                    type="button"
+                    onClick={reloadCaptcha}
+                    className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+                    aria-label="Reload Captcha"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-5 w-5 text-gray-600"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M16.023 9.348h4.992m0 0-1.5-1.5m1.5 1.5-1.5 1.5M7.98 14.652H2.988m0 0 1.5 1.5m-1.5-1.5 1.5-1.5M12 6.75a5.25 5.25 0 0 1 5.25 5.25v.75m-10.5 0V12A5.25 5.25 0 0 1 12 17.25m0 10.5V12A5.25 5.25 0 0 1 7.98 6.75m0 10.5V12a5.25 5.25 0 0 1-5.25 5.25m0 0V6.75a5.25 5.25 0 0 1 5.25-5.25m5.25 5.25H12"
+                      />
+                    </svg>
+                  </button>
+                  <LoadCanvasTemplateNoReload />
+                </div>
+                <input
+                  ref={captchaRef}
+                  placeholder="Ketik captcha di sini"
+                  id="user_captcha_input"
+                  name="user_captcha_input"
+                  type="text"
+                  className="w-full md:w-64 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-6">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full md:w-48 bg-[#0047ba] hover:bg-[#00368e] disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
+                >
+                  {isLoading ? "Loading..." : "Simpan"}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </>
+      </section>
+    </div>
   );
 }
