@@ -224,11 +224,12 @@ export default function Gratifikasi() {
               </div>
 
               {/* Captcha */}
-              <div className="space-y-4">
+              <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Enter Captcha Value
+                  Masukkan Kode Captcha
                 </label>
                 <div className="flex items-center gap-4">
+                  <LoadCanvasTemplateNoReload />
                   <button
                     type="button"
                     onClick={reloadCaptcha}
@@ -237,37 +238,38 @@ export default function Gratifikasi() {
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 30 30"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-5 w-5 text-gray-600"
                     >
-                      <path d="M 15 3 C 12.031398 3 9.3028202 4.0834384 7.2070312 5.875 A 1.0001 1.0001 0 1 0 8.5058594 7.3945312 C 10.25407 5.9000929 12.516602 5 15 5 C 20.19656 5 24.450989 8.9379267 24.951172 14 L 22 14 L 26 20 L 30 14 L 26.949219 14 C 26.437925 7.8516588 21.277839 3 15 3 z M 4 10 L 0 16 L 3.0507812 16 C 3.562075 22.148341 8.7221607 27 15 27 C 17.968602 27 20.69718 25.916562 22.792969 24.125 A 1.0001 1.0001 0 1 0 21.494141 22.605469 C 19.74593 24.099907 17.483398 25 15 25 C 9.80344 25 5.5490109 21.062074 5.0488281 16 L 8 16 L 4 10 z"></path>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M16.023 9.348h4.992m0 0-1.5-1.5m1.5 1.5-1.5 1.5M7.98 14.652H2.988m0 0 1.5 1.5m-1.5-1.5 1.5-1.5M12 6.75a5.25 5.25 0 0 1 5.25 5.25v.75m-10.5 0V12A5.25 5.25 0 0 1 12 17.25m0 10.5V12A5.25 5.25 0 0 1 7.98 6.75m0 10.5V12a5.25 5.25 0 0 1-5.25 5.25m5.25 5.25H12"
+                      />
                     </svg>
                   </button>
-                  <LoadCanvasTemplateNoReload />
+                  <input
+                    ref={captchaRef}
+                    placeholder="Ketik captcha di sini"
+                    id="user_captcha_input"
+                    name="user_captcha_input"
+                    type="text"
+                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  />
                 </div>
-                <input
-                  ref={captchaRef}
-                  placeholder="Ketik captcha di sini"
-                  id="user_captcha_input"
-                  name="user_captcha_input"
-                  type="text"
-                  className="w-full md:w-64 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                />
               </div>
 
               {/* Submit Button */}
-              <div className="pt-6">
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full md:w-48 bg-[#0047ba] hover:bg-[#00368e] disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
-                >
-                  {isLoading ? "Loading..." : "Simpan"}
-                </button>
-              </div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-[#0047ba] hover:bg-[#00368e] disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
+              >
+                {isLoading ? "Loading..." : "Simpan"}
+              </button>
             </form>
           </div>
         </div>
