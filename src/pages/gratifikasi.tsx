@@ -243,7 +243,7 @@ export default function Gratifikasi() {
                     className="p-1 hover:opacity-80 transition-opacity"
                     aria-label="Reload Captcha"
                   >
-                    <img src="/reload.png" alt="Reload" className="h-2 w-2" />
+                    <img src="/reload.png" alt="Reload" className="h-6 w-6" />
                   </button>
                   <LoadCanvasTemplateNoReload />
                 </div>
