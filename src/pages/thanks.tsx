@@ -1,10 +1,69 @@
 import Wave from "react-wavify"
-import { Link } from "react-router-dom"
+import jsPDF from "jspdf";
 
 export default function Thanks() {
+
+    const survey = JSON.parse(
+    sessionStorage.getItem("surveyData") || "{}"
+    );
+    const handleBack = () => {
+        sessionStorage.removeItem("surveyData");
+        window.location.href = "http://sda.pu.go.id/balai/bbwsnt1";
+    };
+    const handleDownload = () => {
+    const doc = new jsPDF();
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("BUKTI PENGISIAN SURVEI", 105, 20, { align: "center" });
+
+        doc.setFontSize(13);
+        doc.text("KEPUASAN MASYARAKAT", 105, 28, { align: "center" });
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+        doc.text("Balai Besar Wilayah Sungai Nusa Tenggara I Mataram", 105, 36, { align: "center" });
+
+        doc.line(20, 42, 190, 42);
+
+        const formatTanggal = (tanggal: string) => {
+            if (!tanggal) return "-";
+
+            return new Date(tanggal).toLocaleDateString("id-ID", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+            });
+        };
+        const data = [
+            ["Nama Pelapor", survey.nama],
+            ["No. HP", survey.no_hp],
+            ["Tanggal Kunjungan", formatTanggal(survey.tanggal_kunjungan)],
+            ["Jenis Pelayanan", survey.jenis_pelayanan],
+        ];
+
+        let y = 55;
+
+        data.forEach(([label, value]) => {
+            doc.text(`${label}`, 20, y);
+            doc.text(`: ${value || "-"}`, 70, y);
+            y += 10;
+        });
+
+        doc.line(20, y + 2, 190, y + 2);
+
+        doc.text("Terima kasih atas partisipasi Anda.", 20, y + 15);
+        doc.text("Dokumen ini merupakan bukti bahwa Anda telah", 20, y + 25);
+        doc.text("mengisi Survei Kepuasan Masyarakat.", 20, y + 32);
+
+        doc.setFontSize(10);
+        doc.text(`Dicetak: ${new Date().toLocaleString("id-ID")}`, 20, y + 48);
+
+        const pdfUrl = doc.output("bloburl"); window.open(pdfUrl, "_blank", "noopener,noreferrer");
+    };
+
     return (
         <>
-
 
             <div className="relative w-full">
                 <div className="absolute w-full top-0">
@@ -53,14 +112,23 @@ export default function Thanks() {
                         <div className="text-center text-3xl font-bold">Terima Kasih</div>
                         <div className="text-center font-medium mt-8">Terima kasih sudah ikut berpartisipasi dalam meningkatkan kualitas pelayanan<br /> Balai Besar Wilayah Sungai Nusa Tenggara I Mataram</div>
 
-                        <div className="flex justify-center mt-8">
-                            <Link to={'http://sda.pu.go.id/balai/bbwsnt1'}>
-                                <button
-                                    className="rounded-md mt-2 w-full bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                                >
-                                    Kembali ke Web BBWS NT I Mataram
-                                </button>
-                            </Link>
+                        <div className="flex justify-center gap-4 mt-8">
+                            <button
+                                type="button"
+                                onClick={handleDownload}
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow-md transition duration-200"
+                            >
+                                Unduh Bukti Pengisian
+                            </button>
+                            
+                            <button
+                                type="button"
+                                onClick={handleBack}
+                                className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold shadow-md transition duration-200"
+                            >
+                                Kembali ke Web BBWS NT I Mataram
+                            </button>
+
                         </div>
                     </div>
                 </div>

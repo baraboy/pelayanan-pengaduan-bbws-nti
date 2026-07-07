@@ -109,14 +109,18 @@ export default function FormSurvey() {
 
             console.log('data baru', data)
 
-            const res = await axios.post('/api/survey', data,
-                {
-                    headers: {
-                        'Authorization': 'Basic c3VydmV5c2lzZGE6cGFzczJzaXNkYXN1cnZleQ=='
+            if (import.meta.env.VITE_BASE_URL) {
+                const res = await axios.post('/api/survey', data,
+                    {
+                        headers: {
+                            'Authorization': 'Basic c3VydmV5c2lzZGE6cGFzczJzaXNkYXN1cnZleQ=='
+                        }
                     }
-                }
-            )
-            console.log('response', res.data)
+                )
+                console.log('response', res.data)
+            }
+
+            sessionStorage.setItem("surveyData", JSON.stringify(data));
             navigate('/terima-kasih')
         } catch (error) {
             console.error(error)
