@@ -83,11 +83,11 @@ export default function Beranda() {
           </div>
 
           {/* Right: Certificate Image */}
-          <div className="flex flex-wrap justify-center md:justify-end gap-4">
+          <div className="grid grid-cols-2 gap-4 justify-items-center md:justify-items-end">
             <img
               src="/sertifikat/Sertifikat ISO 370001.jpg"
               alt="Sertifikat ISO 37001"
-              className="w-full max-w-[180px] md:max-w-[220px] h-auto rounded-lg shadow-xl cursor-pointer hover:opacity-90 transition-opacity"
+              className="w-full max-w-[150px] sm:max-w-[180px] md:max-w-[190px] h-auto rounded-lg shadow-xl cursor-pointer hover:opacity-90 transition-opacity"
               onClick={() =>
                 setSelectedImages(["/sertifikat/Sertifikat ISO 370001.jpg"])
               }
@@ -98,7 +98,7 @@ export default function Beranda() {
             <img
               src="/Page 1.webp"
               alt="Dokumen Sertifikat Halaman 1"
-              className="w-full max-w-[180px] md:max-w-[220px] h-auto rounded-lg shadow-xl cursor-pointer hover:opacity-90 transition-opacity"
+              className="w-full max-w-[150px] sm:max-w-[180px] md:max-w-[190px] h-auto rounded-lg shadow-xl cursor-pointer hover:opacity-90 transition-opacity"
               onClick={() => setSelectedImages(["/Page 1.webp", "/Page 2.webp"])}
               onError={(e) => {
                 e.currentTarget.style.display = "none";
