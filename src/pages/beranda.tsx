@@ -18,7 +18,7 @@ const dokumentasiImages = [
 ];
 
 export default function Beranda() {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImages, setSelectedImages] = useState<string[] | null>(null);
 
   const carouselSettings = {
     dots: true,
@@ -83,14 +83,23 @@ export default function Beranda() {
           </div>
 
           {/* Right: Certificate Image */}
-          <div className="flex justify-center md:justify-end">
+          <div className="flex flex-wrap justify-center md:justify-end gap-4">
             <img
               src="/sertifikat/Sertifikat ISO 370001.jpg"
               alt="Sertifikat ISO 37001"
-              className="w-full max-w-[280px] md:max-w-[400px] h-auto rounded-lg shadow-xl cursor-pointer hover:opacity-90 transition-opacity"
+              className="w-full max-w-[180px] md:max-w-[220px] h-auto rounded-lg shadow-xl cursor-pointer hover:opacity-90 transition-opacity"
               onClick={() =>
-                setSelectedImage("/sertifikat/Sertifikat ISO 370001.jpg")
+                setSelectedImages(["/sertifikat/Sertifikat ISO 370001.jpg"])
               }
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+            <img
+              src="/Page 1.webp"
+              alt="Dokumen Sertifikat Halaman 1"
+              className="w-full max-w-[180px] md:max-w-[220px] h-auto rounded-lg shadow-xl cursor-pointer hover:opacity-90 transition-opacity"
+              onClick={() => setSelectedImages(["/Page 1.webp", "/Page 2.webp"])}
               onError={(e) => {
                 e.currentTarget.style.display = "none";
               }}
@@ -112,7 +121,7 @@ export default function Beranda() {
               <div key={index} className="px-2">
                 <div
                   className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
-                  onClick={() => setSelectedImage(img.src)}
+                  onClick={() => setSelectedImages([img.src])}
                 >
                   <img
                     src={img.src}
@@ -488,16 +497,16 @@ export default function Beranda() {
       </section>
 
       {/* Image Preview Modal */}
-      {selectedImage && (
+      {selectedImages && (
         <div
           className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
+          onClick={() => setSelectedImages(null)}
         >
           <button
             className="fixed top-4 right-4 z-50 bg-white/20 hover:bg-white/40 text-white rounded-full p-3 transition-colors"
             onClick={(e) => {
               e.stopPropagation();
-              setSelectedImage(null);
+              setSelectedImages(null);
             }}
           >
             <svg
@@ -516,14 +525,17 @@ export default function Beranda() {
             </svg>
           </button>
           <div
-            className="relative max-h-[90vh] flex items-center justify-center"
+            className="relative max-h-[90vh] flex flex-col md:flex-row items-center justify-center gap-4 overflow-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
-              src={selectedImage}
-              alt="Preview"
-              className="max-h-[85vh] w-auto object-contain rounded-lg shadow-2xl"
-            />
+            {selectedImages.map((image) => (
+              <img
+                key={image}
+                src={image}
+                alt="Preview"
+                className="max-h-[85vh] w-auto max-w-full object-contain rounded-lg shadow-2xl"
+              />
+            ))}
           </div>
         </div>
       )}
