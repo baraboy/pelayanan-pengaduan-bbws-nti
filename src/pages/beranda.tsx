@@ -5,14 +5,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const dokumentasiImages = [
-  { src: "/dokumentasi-kegiatan/1.webp", alt: "Dokumentasi 1" },
-  { src: "/dokumentasi-kegiatan/2.webp", alt: "Dokumentasi 2" },
-  { src: "/dokumentasi-kegiatan/3.webp", alt: "Dokumentasi 3" },
-  { src: "/dokumentasi-kegiatan/4.webp", alt: "Dokumentasi 4" },
-  { src: "/dokumentasi-kegiatan/5.webp", alt: "Dokumentasi 5" },
-  { src: "/dokumentasi-kegiatan/6.webp", alt: "Dokumentasi 6" },
-  { src: "/dokumentasi-kegiatan/7.webp", alt: "Dokumentasi 7" },
-  { src: "/dokumentasi-kegiatan/8.jpeg", alt: "Dokumentasi 8" },
+  { src: "/dokumentasi-kegiatan/1.jpg", alt: "Dokumentasi 1" },
+  { src: "/dokumentasi-kegiatan/2.jpg", alt: "Dokumentasi 2" },
+  { src: "/dokumentasi-kegiatan/3.jpg", alt: "Dokumentasi 3" },
+  { src: "/dokumentasi-kegiatan/4.jpg", alt: "Dokumentasi 4" },
+  { src: "/dokumentasi-kegiatan/5.jpg", alt: "Dokumentasi 5" },
+  { src: "/dokumentasi-kegiatan/6.jpg", alt: "Dokumentasi 6" },
+  { src: "/dokumentasi-kegiatan/7.jpg", alt: "Dokumentasi 7" },
+  { src: "/dokumentasi-kegiatan/8.jpg", alt: "Dokumentasi 8" },
   { src: "/dokumentasi-kegiatan/9.jpg", alt: "Dokumentasi 9" },
   { src: "/dokumentasi-kegiatan/10.jpg", alt: "Dokumentasi 10" },
 ];
@@ -99,7 +99,9 @@ export default function Beranda() {
               src="/Page 1.webp"
               alt="Dokumen Sertifikat Halaman 1"
               className="w-full max-w-[150px] sm:max-w-[180px] md:max-w-[190px] h-auto rounded-lg shadow-xl cursor-pointer hover:opacity-90 transition-opacity"
-              onClick={() => setSelectedImages(["/Page 1.webp", "/Page 2.webp"])}
+              onClick={() =>
+                setSelectedImages(["/Page 1.webp", "/Page 2.webp"])
+              }
               onError={(e) => {
                 e.currentTarget.style.display = "none";
               }}
