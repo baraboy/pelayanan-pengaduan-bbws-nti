@@ -7,9 +7,9 @@ import "slick-carousel/slick/slick-theme.css";
 const dokumentasiImages = [
   { src: "/dokumentasi-kegiatan/1.jpg", alt: "Dokumentasi 1" },
   { src: "/dokumentasi-kegiatan/2.webp", alt: "Dokumentasi 2" },
-  { src: "/dokumentasi-kegiatan/3.webp", alt: "Dokumentasi 3" },
+  { src: "/dokumentasi-kegiatan/3.jpg", alt: "Dokumentasi 3" },
   { src: "/dokumentasi-kegiatan/4.jpg", alt: "Dokumentasi 4" },
-  { src: "/dokumentasi-kegiatan/5.jpg", alt: "Dokumentasi 5" },
+  { src: "/dokumentasi-kegiatan/5.webp", alt: "Dokumentasi 5" },
   { src: "/dokumentasi-kegiatan/6.jpg", alt: "Dokumentasi 6" },
   { src: "/dokumentasi-kegiatan/7.jpg", alt: "Dokumentasi 7" },
   { src: "/dokumentasi-kegiatan/8.jpg", alt: "Dokumentasi 8" },
